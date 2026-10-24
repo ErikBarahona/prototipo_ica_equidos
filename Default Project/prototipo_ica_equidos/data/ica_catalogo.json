@@ -1,0 +1,589 @@
+{
+  "norma": "ICA V2.0 (2023) - Metodología para Evaluar el Bienestar Animal en Équidos",
+  "escala_puntaje": [
+    0,
+    20,
+    55,
+    100
+  ],
+  "clasificacion_ica": {
+    "Excelente": ">=90",
+    "Alto": "75-89",
+    "Medio": "50-74",
+    "Bajo": "<50"
+  },
+  "muestreo": {
+    "<10": "todos",
+    "11-20": 10,
+    "21-99": 20,
+    "100-499": 30,
+    "500-999": 40,
+    ">=1000": "5%"
+  },
+  "libertades": [
+    {
+      "id": "L1",
+      "nombre": "Hambre, sed y malnutrición",
+      "peso": 0.2
+    },
+    {
+      "id": "L2",
+      "nombre": "Molestias físicas y térmicas",
+      "peso": 0.15
+    },
+    {
+      "id": "L3",
+      "nombre": "Dolor, lesión y enfermedad",
+      "peso": 0.3
+    },
+    {
+      "id": "L4",
+      "nombre": "Temor y angustia",
+      "peso": 0.15
+    },
+    {
+      "id": "L5",
+      "nombre": "Comportamiento natural",
+      "peso": 0.2
+    }
+  ],
+  "capitulos": {
+    "C1": {
+      "nombre": "Capítulo I - Cría, producción, exportación, exhibición y deporte (43 indicadores)",
+      "total_indicadores": 43,
+      "indicadores": [
+        {
+          "codigo": "I-01",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Disponibilidad de agua"
+        },
+        {
+          "codigo": "I-02",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Calidad del agua"
+        },
+        {
+          "codigo": "I-03",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Acceso a alimento"
+        },
+        {
+          "codigo": "I-04",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Cantidad de alimento"
+        },
+        {
+          "codigo": "I-05",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Frecuencia de alimentación"
+        },
+        {
+          "codigo": "I-06",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Refugio / sombra"
+        },
+        {
+          "codigo": "I-07",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Protección contra lluvia"
+        },
+        {
+          "codigo": "I-08",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ventilación"
+        },
+        {
+          "codigo": "I-09",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Temperatura adecuada"
+        },
+        {
+          "codigo": "I-10",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Superficie de descanso"
+        },
+        {
+          "codigo": "I-11",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Cama / cama seca"
+        },
+        {
+          "codigo": "I-12",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Espacio por animal (Tabla 3)"
+        },
+        {
+          "codigo": "I-13",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Piso no resbaladizo"
+        },
+        {
+          "codigo": "I-14",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Drenajes"
+        },
+        {
+          "codigo": "I-15",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Limpieza de instalaciones"
+        },
+        {
+          "codigo": "I-16",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ausencia de objetos cortopunzantes"
+        },
+        {
+          "codigo": "I-17",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Área de ejercicio"
+        },
+        {
+          "codigo": "I-18",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Transporte sin hacinamiento"
+        },
+        {
+          "codigo": "I-19",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Aperos sin daño"
+        },
+        {
+          "codigo": "I-20",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Inspección sanitaria general"
+        },
+        {
+          "codigo": "I-21",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cojera / locomoción"
+        },
+        {
+          "codigo": "I-22",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Lesiones en piel"
+        },
+        {
+          "codigo": "I-23",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Heridas abiertas"
+        },
+        {
+          "codigo": "I-24",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Parásitos externos"
+        },
+        {
+          "codigo": "I-25",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Parásitos internos"
+        },
+        {
+          "codigo": "I-26",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Vacunación vigente"
+        },
+        {
+          "codigo": "I-27",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cuidado de cascos"
+        },
+        {
+          "codigo": "I-28",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cojinete plantar"
+        },
+        {
+          "codigo": "I-29",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Ausencia de prácticas dolorosas"
+        },
+        {
+          "codigo": "I-30",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "No uso de bozal permanente"
+        },
+        {
+          "codigo": "I-31",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "No uso de fusta/espuelas que lesionan"
+        },
+        {
+          "codigo": "I-32",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Manejo veterinario"
+        },
+        {
+          "codigo": "I-33",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Medicamentos y tiempos de retiro"
+        },
+        {
+          "codigo": "I-34",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Registro de morbilidad"
+        },
+        {
+          "codigo": "I-35",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Nutrición y enfermedad"
+        },
+        {
+          "codigo": "I-36",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ausencia de miedo al personal"
+        },
+        {
+          "codigo": "I-37",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Manejo sin violencia"
+        },
+        {
+          "codigo": "I-38",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ruidos y sobresaltos"
+        },
+        {
+          "codigo": "I-39",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Expresión de conducta natural"
+        },
+        {
+          "codigo": "I-40",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Contacto social con otros équidos"
+        },
+        {
+          "codigo": "I-41",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Libertad de movimiento"
+        },
+        {
+          "codigo": "I-42",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Ausencia de estereotipias"
+        },
+        {
+          "codigo": "I-43",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Acceso a pastoreo"
+        }
+      ]
+    },
+    "C2": {
+      "nombre": "Capítulo II - Traspatio y trabajo (32 indicadores)",
+      "total_indicadores": 32,
+      "indicadores": [
+        {
+          "codigo": "II-01",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Disponibilidad de agua"
+        },
+        {
+          "codigo": "II-02",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Calidad del agua"
+        },
+        {
+          "codigo": "II-03",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Acceso a alimento"
+        },
+        {
+          "codigo": "II-04",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Cantidad de alimento"
+        },
+        {
+          "codigo": "II-05",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Frecuencia de alimentación"
+        },
+        {
+          "codigo": "II-06",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Refugio / sombra"
+        },
+        {
+          "codigo": "II-07",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Protección contra lluvia"
+        },
+        {
+          "codigo": "II-08",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ventilación"
+        },
+        {
+          "codigo": "II-09",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Temperatura adecuada"
+        },
+        {
+          "codigo": "II-10",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Inspección sanitaria general"
+        },
+        {
+          "codigo": "II-11",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cojera / locomoción"
+        },
+        {
+          "codigo": "II-12",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Lesiones en piel"
+        },
+        {
+          "codigo": "II-13",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Heridas abiertas"
+        },
+        {
+          "codigo": "II-14",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Parásitos externos"
+        },
+        {
+          "codigo": "II-15",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Parásitos internos"
+        },
+        {
+          "codigo": "II-16",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Vacunación vigente"
+        },
+        {
+          "codigo": "II-17",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cuidado de cascos"
+        },
+        {
+          "codigo": "II-18",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cojinete plantar"
+        },
+        {
+          "codigo": "II-19",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Ausencia de prácticas dolorosas"
+        },
+        {
+          "codigo": "II-20",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "No uso de bozal permanente"
+        },
+        {
+          "codigo": "II-21",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "No uso de fusta/espuelas que lesionan"
+        },
+        {
+          "codigo": "II-22",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Manejo veterinario"
+        },
+        {
+          "codigo": "II-23",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Medicamentos y tiempos de retiro"
+        },
+        {
+          "codigo": "II-24",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Registro de morbilidad"
+        },
+        {
+          "codigo": "II-25",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Nutrición y enfermedad"
+        },
+        {
+          "codigo": "II-26",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Lesiones por aperos"
+        },
+        {
+          "codigo": "II-27",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ausencia de miedo al personal"
+        },
+        {
+          "codigo": "II-28",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Manejo sin violencia"
+        },
+        {
+          "codigo": "II-29",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ruidos y sobresaltos"
+        },
+        {
+          "codigo": "II-30",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Expresión de conducta natural"
+        },
+        {
+          "codigo": "II-31",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Contacto social con otros équidos"
+        },
+        {
+          "codigo": "II-32",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Libertad de movimiento"
+        }
+      ]
+    }
+  }
+}

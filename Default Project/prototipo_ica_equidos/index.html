@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICA Equidos - Prototipo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <header class="app-header">
+        <h1>ICA Equidos - Prototipo</h1>
+        <div class="user-info" id="userInfo" style="display:none;">
+            <span id="userName"></span>
+            <button id="logoutBtn" class="btn btn-secondary">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Login Screen -->
+        <section id="screenLogin" class="screen active">
+            <div class="card login-card">
+                <h2>Iniciar sesión</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Usuario</label>
+                        <input type="text" id="username" autocomplete="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" autocomplete="current-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Dashboard Screen -->
+        <section id="screenDashboard" class="screen">
+            <div class="container">
+                <nav class="nav-menu">
+                    <button class="nav-btn active" data-screen="Dashboard">Dashboard</button>
+                    <button class="nav-btn" data-screen="Predios">Predios</button>
+                    <button class="nav-btn" data-screen="Inventario">Inventario Equino</button>
+                    <button class="nav-btn" data-screen="NuevaEvaluacion">Nueva Evaluación</button>
+                    <button class="nav-btn" data-screen="EvaluacionEtapas">Evaluación por Etapas</button>
+                    <button class="nav-btn" data-screen="Resultados">Resultados</button>
+                    <button class="nav-btn" data-screen="PlanMejora">Plan de Mejora</button>
+                </nav>
+                <div class="card">
+                    <h2>Dashboard</h2>
+                    <div class="dashboard-grid">
+                        <div class="dashboard-item">
+                            <h3>Total Predios</h3>
+                            <p class="dashboard-value" id="dashPredios">0</p>
+                        </div>
+                        <div class="dashboard-item">
+                            <h3>Total Equinos</h3>
+                            <p class="dashboard-value" id="dashEquinos">0</p>
+                        </div>
+                        <div class="dashboard-item">
+                            <h3>Evaluaciones</h3>
+                            <p class="dashboard-value" id="dashEvaluaciones">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Predios Screen -->
+        <section id="screenPredios" class="screen">
+            <div class="container">
+                <nav class="nav-menu">
+                    <button class="nav-btn" data-screen="Dashboard">Dashboard</button>
+                    <button class="nav-btn active" data-screen="Predios">Predios</button>
+                    <button class="nav-btn" data-screen="Inventario">Inventario Equino</button>
+                    <button class="nav-btn" data-screen="NuevaEvaluacion">Nueva Evaluación</button>
+                    <button class="nav-btn" data-screen="EvaluacionEtapas">Evaluación por Etapas</button>
+                    <button class="nav-btn" data-screen="Resultados">Resultados</button>
+                    <button class="nav-btn" data-screen="PlanMejora">Plan de Mejora</button>
+                </nav>
+                <div class="card">
+                    <h2>Predios</h2>
+                    <form id="predioForm" class="form-inline">
+                        <input type="text" id="predioNombre" placeholder="Nombre del predio" required>
+                        <input type="text" id="predioUbicacion" placeholder="Ubicación" required>
+                        <button type="submit" class="btn btn-primary">Agregar predio</button>
+                    </form>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Ubicación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prediosTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inventario Screen -->
+        <section id="screenInventario" class="screen">
+            <div class="container">
+                <nav class="nav-menu">
+                    <button class="nav-btn" data-screen="Dashboard">Dashboard</button>
+                    <button class="nav-btn" data-screen="Predios">Predios</button>
+                    <button class="nav-btn active" data-screen="Inventario">Inventario Equino</button>
+                    <button class="nav-btn" data-screen="NuevaEvaluacion">Nueva Evaluación</button>
+                    <button class="nav-btn" data-screen="EvaluacionEtapas">Evaluación por Etapas</button>
+                    <button class="nav-btn" data-screen="Resultados">Resultados</button>
+                    <button class="nav-btn" data-screen="PlanMejora">Plan de Mejora</button>
+                </nav>
+                <div class="card">
+                    <h2>Inventario Equino</h2>
+                    <form id="equinoForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="equinoPredio">Predio</label>
+                                <select id="equinoPredio" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="equinoEspecie">Especie</label>
+                                <select id="equinoEspecie" required>
+                                    <option value="caballar">Caballar</option>
+                                    <option value="asnal">Asnal</option>
+                                    <option value="mular">Mular</option>
+                                    <option value="burdegano">Burdegano</option>
+                                    <option value="cebroide">Cebroide</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="equinoEdad">Grupo etario</label>
+                                <select id="equinoEdad" required>
+                                    <option value="potrillo">Potrillo</option>
+                                    <option value="joven">Joven</option>
+                                    <option value="adulto">Adulto</option>
+                                    <option value="geronte">Geronte</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="equinoSexo">Sexo</label>
+                                <select id="equinoSexo" required>
+                                    <option value="macho">Macho</option>
+                                    <option value="hembra">Hembra</option>
+                                    <option value="indeterminado">Indeterminado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="equinoNombre">Identificación/Nombre</label>
+                                <input type="text" id="equinoNombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="equinoTotal">Total animales en hato (opcional)</label>
+                                <input type="number" id="equinoTotal" min="0">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Agregar equino</button>
+                    </form>
+                    <div class="auto-sample">
+                        <h3>Muestra sugerida (auto-cálculo)</h3>
+                        <p id="sampleResult">Total hato: 0 → Muestra sugerida: 0</p>
+                        <small>Leyenda: &lt;10 → todos; 11-20 → 10; 21-99 → 20; 100-499 → 30; 500-999 → 40; ≥1000 → 5%</small>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Predio</th>
+                                <th>Especie</th>
+                                <th>Edad</th>
+                                <th>Sexo</th>
+                                <th>ID/Nombre</th>
+                                <th>Total hato</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equinosTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nueva Evaluación Screen -->
+        <section id="screenNuevaEvaluacion" class="screen">
+            <div class="container">
+                <nav class="nav-menu">
+                    <button class="nav-btn" data-screen="Dashboard">Dashboard</button>
+                    <button class="nav-btn" data-screen="Predios">Predios</button>
+                    <button class="nav-btn" data-screen="Inventario">Inventario Equino</button>
+                    <button class="nav-btn active" data-screen="NuevaEvaluacion">Nueva Evaluación</button>
+                    <button class="nav-btn" data-screen="EvaluacionEtapas">Evaluación por Etapas</button>
+                    <button class="nav-btn" data-screen="Resultados">Resultados</button>
+                    <button class="nav-btn" data-screen="PlanMejora">Plan de Mejora</button>
+                </nav>
+                <div class="card">
+                    <h2>Nueva Evaluación</h2>
+                    <form id="nuevaEvalForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evalPredio">Predio</label>
+                                <select id="evalPredio" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="evalEquino">Equino</label>
+                                <select id="evalEquino" required></select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evalCapitulo">Capítulo</label>
+                                <select id="evalCapitulo" required>
+                                    <option value="C1">Capítulo I - Criterios relacionados con las libertades</option>
+                                    <option value="C2">Capítulo II - Buenas prácticas</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="evalEtapa">Etapa</label>
+                                <select id="evalEtapa" required>
+                                    <option value="EI">Etapa I</option>
+                                    <option value="EII">Etapa II</option>
+                                    <option value="EIII">Etapa III</option>
+                                    <option value="EIV">Etapa IV</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Iniciar evaluación</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evaluación por Etapas Screen -->
+        <section id="screenEvaluacionEtapas" class="screen">
+            <div class="container">
+                <nav class="nav-menu">
+                    <button class="nav-btn" data-screen="Dashboard">Dashboard</button>
+                    <button class="nav-btn" data-screen="Predios">Predios</button>
+                    <button class="nav-btn" data-screen="Inventario">Inventario Equino</button>
+                    <button class="nav-btn" data-screen="NuevaEvaluacion">Nueva Evaluación</button>
+                    <button class="nav-btn active" data-screen="EvaluacionEtapas">Evaluación por Etapas</button>
+                    <button class="nav-btn" data-screen="Resultados">Resultados</button>
+                    <button class="nav-btn" data-screen="PlanMejora">Plan de Mejora</button>
+                </nav>
+                <div class="card">
+                    <h2>Evaluación por Etapas (Cap. I / Cap. II - EI-EIV)</h2>
+                    <div id="evalContext" class="eval-context"></div>
+                    <div id="indicatorsList" class="indicators-list"></div>
+                    <div class="eval-photos">
+                        <h3>Fotos (máximo 3)</h3>
+                        <input type="file" id="photoInput" accept="image/*" multiple>
+                        <div id="photoPreview" class="photo-preview"></div>
+                    </div>
+                    <div class="eval-actions">
+                        <button id="saveEvalBtn" class="btn btn-primary">Guardar evaluación</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resultados Screen -->
+        <section id="screenResultados" class="screen">
+            <div class="container">
+                <nav class="nav-menu">
+                    <button class="nav-btn" data-screen="Dashboard">Dashboard</button>
+                    <button class="nav-btn" data-screen="Predios">Predios</button>
+                    <button class="nav-btn" data-screen="Inventario">Inventario Equino</button>
+                    <button class="nav-btn" data-screen="NuevaEvaluacion">Nueva Evaluación</button>
+                    <button class="nav-btn" data-screen="EvaluacionEtapas">Evaluación por Etapas</button>
+                    <button class="nav-btn active" data-screen="Resultados">Resultados</button>
+                    <button class="nav-btn" data-screen="PlanMejora">Plan de Mejora</button>
+                </nav>
+                <div class="card">
+                    <h2>Resultados</h2>
+                    <div id="resultadosContent"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plan de Mejora Screen -->
+        <section id="screenPlanMejora" class="screen">
+            <div class="container">
+                <nav class="nav-menu">
+                    <button class="nav-btn" data-screen="Dashboard">Dashboard</button>
+                    <button class="nav-btn" data-screen="Predios">Predios</button>
+                    <button class="nav-btn" data-screen="Inventario">Inventario Equino</button>
+                    <button class="nav-btn" data-screen="NuevaEvaluacion">Nueva Evaluación</button>
+                    <button class="nav-btn" data-screen="EvaluacionEtapas">Evaluación por Etapas</button>
+                    <button class="nav-btn" data-screen="Resultados">Resultados</button>
+                    <button class="nav-btn active" data-screen="PlanMejora">Plan de Mejora</button>
+                </nav>
+                <div class="card">
+                    <h2>Plan de Mejora</h2>
+                    <div id="planMejoraContent"></div>
+                    <button id="exportPdfBtn" class="btn btn-primary">Exportar a PDF</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <small>Prototipo ICA Equidos</small>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

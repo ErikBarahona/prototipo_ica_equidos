@@ -1,0 +1,182 @@
+<mxfile host="app.diagrams.net" agent="Agent">
+  <diagram id="ER_ICA_EQUIDOS_CORREGIDO" name="ER_ICA_Equidos_Corregido">
+    <mxGraphModel dx="1617" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;fontSize=18;fontStyle=1;fillColor=#1F4E79;color=#FFFFFF;align=center;verticalAlign=middle;spacing=10;" value="MODELO ENTIDAD-RELACIÓN - ICA ÉQUIDOS V2 2023 (CORREGIDO)" vertex="1">
+          <mxGeometry height="40" width="1500" x="50" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nota1" parent="1" style="text;fontSize=10;fillColor=#FFF2CC;strokeColor=#D6B656;align=left;verticalAlign=top;spacing=5;" value="NOTAS:&#xa;- Norma: ICA V2 2023 (Secciones 5.4-5.5, Tablas 1,3,4, Capítulos I-II)&#xa;- Pesos libertades: 20/15/30/15/20 (suma 100%)&#xa;- Clasificación exclusiva: Excelente (≥90), Alto (75-89), Medio (50-74), Bajo (&lt;50)&#xa;- Capítulo: C1 (43) / C2 (32) - Crítico, inmutable tras Etapa I&#xa;- version_norma = ICA-V2-2023 por evaluación&#xa;- No eliminación física (soft-delete) + auditoría con valor_anterior/valor_nuevo&#xa;- Trazabilidad: Evaluación → ResultadoLibertad (5) → DetalleRespuesta → EvidenciaFoto/MuestraAnimal" vertex="1">
+          <mxGeometry height="120" width="1500" x="50" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="fincas" parent="1" style="rounded=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=9;fontStyle=1;align=left;verticalAlign=top;spacing=4;" value="FINCAS&#xa;(id_finca PK, nombre_finca, propietario, direccion, municipio, departamento,&#xa; msnm NOT NULL, tipo ENUM, sistema_productivo ENUM, tipo_productor,&#xa; telefono_contacto, correo_contacto, observaciones, activo, timestamps)" vertex="1">
+          <mxGeometry height="120" width="280" x="120" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="ubicaciones" parent="1" style="rounded=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="UBICACIONES&#xa;(id_ubicacion PK, id_finca FK, nombre_ubicacion,&#xa; tipo_ubicacion, capacidad_maxima, observaciones, activo, creado_en)" vertex="1">
+          <mxGeometry height="80" width="280" x="120" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="inventario" parent="1" style="rounded=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="INVENTARIO_EQUINO&#xa;(id_equino PK, id_finca FK, id_categoria_etaria FK,&#xa; especie ENUM, sexo ENUM, nombre_identificacion, nro_identificacion,&#xa; fecha_nacimiento, peso_aproximado, categoria_etaria, activo, timestamps)" vertex="1">
+          <mxGeometry height="110" width="280" x="120" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="categoria" parent="1" style="rounded=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="CATALOGO_CATEGORIA_ETARIA&#xa;(id_categoria PK, codigo UNIQUE, nombre, descripcion, activo)" vertex="1">
+          <mxGeometry height="60" width="280" x="120" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="libertades" parent="1" style="rounded=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=9;fontStyle=1;align=left;verticalAlign=top;spacing=4;" value="LIBERTADES&#xa;(id_libertad PK INT, nombre, descripcion, peso NUMERIC CHECK sum=100, activo)&#xa;[1:20%,2:15%,3:30%,4:15%,5:20%]" vertex="1">
+          <mxGeometry height="70" width="240" x="460" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="indicadores" parent="1" style="rounded=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="INDICADORES_CHECKLIST&#xa;(id_indicador PK, codigo UNIQUE, capitulo ENUM(C1/C2),&#xa; id_libertad FK, descripcion, metodo, opciones_puntaje JSONB,&#xa; version DEFAULT ICA-V2-2023, activo, creado_en)&#xa;C1:43, C2:32 - opciones {0,20,55,100}" vertex="1">
+          <mxGeometry height="110" width="240" x="460" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="evaluaciones" parent="1" style="rounded=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=9;fontStyle=1;align=left;verticalAlign=top;spacing=4;" value="EVALUACIONES&#xa;(id_evaluacion PK, id_finca FK, id_ubicacion FK, codigo_evaluacion UNIQUE,&#xa; fecha_evaluacion, hora_inicio/fin, evaluador_principal, evaluadores_aux,&#xa; capitulo ENUM(C1/C2) NOT NULL, version_norma DEFAULT &#39;ICA-V2-2023&#39;,&#xa; msnm_evaluacion, total_animales, muestra_calculada, porcentaje_total,&#xa; clasificacion ENUM(Excelente/Alto/Medio/Bajo), estado, requiere_plan_mejora,&#xa; finalizado_en, timestamps, creado_por)" vertex="1">
+          <mxGeometry height="160" width="320" x="760" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="resultado_lib" parent="1" style="rounded=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=9;fontStyle=1;align=left;verticalAlign=top;spacing=4;" value="RESULTADO_LIBERTAD&#xa;(id_resultado_libertad PK, id_evaluacion FK, id_libertad FK,&#xa; promedio NUMERIC(0-100), ponderado NUMERIC(0-100),&#xa; puntaje_bruto, cumplido, observacion, calculado_en,&#xa; UNIQUE(id_evaluacion,id_libertad))&#xa;Requerido: 5 registros por evaluación" vertex="1">
+          <mxGeometry height="110" width="320" x="760" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="muestra_animal" parent="1" style="rounded=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="MUESTRA_ANIMAL&#xa;(id_muestra_animal PK, id_evaluacion FK, id_equino FK NULL,&#xa; especie ENUM, sexo ENUM, grupo_etario, categoria_etaria,&#xa; identificacion, ubicacion, muestreado, observacion, creado_en)&#xa;Animales muestreados (BHS, individualización)" vertex="1">
+          <mxGeometry height="100" width="320" x="760" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="detalle" parent="1" style="rounded=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="DETALLE_RESPUESTAS&#xa;(id_detalle PK, id_evaluacion FK, id_indicador FK,&#xa; id_resultado_libertad FK, id_muestra_animal FK NULL,&#xa; puntaje_obtenido INT CHECK IN (0,20,55,100), observacion,&#xa; foto_url1, foto_url2, foto_url3, numerador, denominador CHECK&gt;=0,&#xa; requiere_tratamiento, fecha_registro, registrado_por)" vertex="1">
+          <mxGeometry height="140" width="340" x="1120" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="evidencia_foto" parent="1" style="rounded=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="EVIDENCIA_FOTO&#xa;(id_evidencia_foto PK, id_detalle FK, orden INT CHECK 1-3,&#xa; foto_url NOT NULL, descripcion, nombre_archivo, tipo_archivo,&#xa; tamano_bytes, registrado_en, registrado_por,&#xa; UNIQUE(id_detalle,orden))&#xa;1:N - Recomendado vs campos fijos" vertex="1">
+          <mxGeometry height="100" width="340" x="1120" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="documento" parent="1" style="rounded=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="DOCUMENTO_SOPORTE&#xa;(id_documento PK, id_evaluacion FK, tipo_documento,&#xa; presenta BOOL, se_niega BOOL, CHECK NOT(presenta AND se_niega),&#xa; firmado BOOL, matricula_comvezcol, nombre_firmante, cargo_firmante,&#xa; fecha_presentacion, archivo_url, observacion, creado_en, creado_por)&#xa;Capítulo III - MV/MVZ Firmante" vertex="1">
+          <mxGeometry height="120" width="340" x="1120" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="plan" parent="1" style="rounded=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=9;align=left;verticalAlign=top;spacing=4;" value="PLAN_MEJORA&#xa;(id_plan_mejora PK, id_evaluacion FK, id_indicador FK, id_libertad FK,&#xa; titulo NOT NULL, accion NOT NULL, responsable NOT NULL, fecha_limite NOT NULL,&#xa; prioridad ENUM, estado ENUM, requiere_tratamiento, fecha_inicio/cierre,&#xa; evidencia_cierre, observaciones, timestamps, actualizado_por)&#xa;RF27/HU-13" vertex="1">
+          <mxGeometry height="120" width="340" x="1120" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="auditoria" parent="1" style="rounded=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=9;fontStyle=1;align=left;verticalAlign=top;spacing=4;" value="AUDITORIA_TRAZABILIDAD&#xa;(id_auditoria PK, tabla_afectada, id_registro_afectado UUID,&#xa; accion ENUM(CREATE/UPDATE/DELETE/VIEW), usuario NOT NULL,&#xa; fecha_accion, direccion_ip, user_agent, valor_anterior JSONB,&#xa; valor_nuevo JSONB, motivo_eliminacion, observacion)&#xa;No eliminación física + soft-delete con motivo (RF34)" vertex="1">
+          <mxGeometry height="130" width="240" x="460" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="rel1" edge="1" parent="1" source="fincas" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="ubicaciones" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel2" edge="1" parent="1" source="fincas" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="inventario" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel3" edge="1" parent="1" source="inventario" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="categoria" value="N:1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel4" edge="1" parent="1" source="libertades" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="indicadores" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel5" edge="1" parent="1" source="fincas" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="evaluaciones" value="1:N">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="420" y="340" />
+              <mxPoint x="420" y="250" />
+              <mxPoint x="920" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel6" edge="1" parent="1" source="evaluaciones" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="ubicaciones" value="N:1 (opcional)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720" y="360" />
+              <mxPoint x="720" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel7" edge="1" parent="1" source="evaluaciones" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="resultado_lib" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel8" edge="1" parent="1" source="libertades" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="resultado_lib" value="1:N">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="720" y="315" />
+              <mxPoint x="720" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel9" edge="1" parent="1" source="evaluaciones" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="muestra_animal" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel10" edge="1" parent="1" source="muestra_animal" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="inventario" value="N:1 (opcional)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="650" />
+              <mxPoint x="440" y="595" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel11" edge="1" parent="1" source="evaluaciones" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="detalle" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel12" edge="1" parent="1" source="indicadores" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="detalle" value="1:N">
+          <mxGeometry relative="1" x="-0.15" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1080" y="425" />
+              <mxPoint x="1080" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel13" edge="1" parent="1" source="detalle" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="resultado_lib" value="N:1 (opcional)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="370" />
+              <mxPoint x="1100" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel14" edge="1" parent="1" source="detalle" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="muestra_animal" value="N:1 (opcional)">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1100" y="390" />
+              <mxPoint x="1100" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel15" edge="1" parent="1" source="detalle" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="evidencia_foto" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel16" edge="1" parent="1" source="evaluaciones" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="documento" value="1:N">
+          <mxGeometry relative="1" x="-0.4" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1100" y="330" />
+              <mxPoint x="1100" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel17" edge="1" parent="1" source="evaluaciones" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="plan" value="1:N">
+          <mxGeometry relative="1" x="-0.5" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1090" y="310" />
+              <mxPoint x="1090" y="760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel18" edge="1" parent="1" source="plan" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="indicadores" value="N:1 (opcional)">
+          <mxGeometry relative="1" x="-0.6" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="440" y="760" />
+              <mxPoint x="440" y="425" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel19" edge="1" parent="1" source="plan" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;fontSize=8;" target="libertades" value="N:1 (opcional)">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="430" y="770" />
+              <mxPoint x="430" y="315" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leyenda" parent="1" style="text;fontSize=9;fillColor=#F5F5F5;strokeColor=#666666;align=left;verticalAlign=top;spacing=4;" value="LEYENDA:&#xa;PK = Primary Key | FK = Foreign Key&#xa;ENUMs: capitulo, especie, sexo, tipo_finca, sistema_productivo, clasificacion_ica, estados, prioridad, accion_auditoria&#xa;CHECKs: pesos suma 100%, puntaje IN (0,20,55,100), denominador&gt;=0, orden 1-3, presenta!=se_niega&#xa;Trazabilidad completa + No eliminación física (soft-delete)" vertex="1">
+          <mxGeometry height="80" width="1500" x="50" y="840" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

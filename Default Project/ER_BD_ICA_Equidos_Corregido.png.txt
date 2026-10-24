@@ -1,0 +1,11 @@
+NOTA: ER_BD_ICA_Equidos_Corregido.png
+
+Este archivo PNG puede generarse abriendo ER_BD_Equidos_Corregido.drawio en draw.io (https://app.diagrams.net) y exportando como PNG.
+
+El archivo XML drawio (ER_BD_ICA_Equidos_Corregido.drawio) contiene la estructura completa del modelo entidad-relación corregido con:
+- Todas las entidades corregidas/nuevas (resultado_libertad, muestra_animal, documento_soporte, plan_mejora, evidencia_foto)
+- Campos agregados según correcciones ICA V2 2023
+- Relaciones, cardinalidades, checks, notas explicativas
+- Alineación con norma ICA V2 2023 (pesos 20/15/30/15/20, clasificación exclusiva 90/75/50)
+
+Se recomienda generar el PNG desde el XML para obtener la referencia gráfica solicitada.
