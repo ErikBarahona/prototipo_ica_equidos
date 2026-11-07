@@ -1,0 +1,1247 @@
+{
+  "norma": {
+    "version": "ICA V2.0 (2023)",
+    "nombre": "Metodología para Evaluar el Bienestar Animal en Équidos"
+  },
+  "libertades": [
+    {
+      "id": "L1",
+      "nombre": "Hambre, sed y malnutrición",
+      "peso": 0.2
+    },
+    {
+      "id": "L2",
+      "nombre": "Molestias físicas y térmicas",
+      "peso": 0.15
+    },
+    {
+      "id": "L3",
+      "nombre": "Dolor, lesión y enfermedad",
+      "peso": 0.3
+    },
+    {
+      "id": "L4",
+      "nombre": "Temor y angustia",
+      "peso": 0.15
+    },
+    {
+      "id": "L5",
+      "nombre": "Comportamiento natural",
+      "peso": 0.2
+    }
+  ],
+  "pesos": {
+    "L1": 0.2,
+    "L2": 0.15,
+    "L3": 0.3,
+    "L4": 0.15,
+    "L5": 0.2
+  },
+  "escalaPuntaje": [
+    0,
+    20,
+    55,
+    100
+  ],
+  "escalaIndicador": [
+    {
+      "score": 100,
+      "etiqueta": "Excelente",
+      "clasificacion": "Excelente",
+      "desc": "Cumple plenamente el indicador"
+    },
+    {
+      "score": 55,
+      "etiqueta": "Medio",
+      "clasificacion": "Medio",
+      "desc": "Cumple parcialmente el indicador"
+    },
+    {
+      "score": 20,
+      "etiqueta": "Bajo",
+      "clasificacion": "Bajo",
+      "desc": "Cumple mínimamente el indicador"
+    },
+    {
+      "score": 0,
+      "etiqueta": "Bajo (no cumple)",
+      "clasificacion": "Bajo",
+      "desc": "No cumple / situación crítica"
+    }
+  ],
+  "clasificacion": [
+    {
+      "etiqueta": "Excelente",
+      "min": 90,
+      "max": 100
+    },
+    {
+      "etiqueta": "Alto",
+      "min": 75,
+      "max": 89.99
+    },
+    {
+      "etiqueta": "Medio",
+      "min": 50,
+      "max": 74.99
+    },
+    {
+      "etiqueta": "Bajo",
+      "min": 0,
+      "max": 49.99
+    }
+  ],
+  "etapas": [
+    {
+      "id": "EI",
+      "num": "Etapa I",
+      "nombre": "Reunión inicial",
+      "desc": "Se obtiene la información básica del predio y se realiza el cálculo del tamaño de muestra y la selección de potreros y corrales a evaluar."
+    },
+    {
+      "id": "EII",
+      "num": "Etapa II",
+      "nombre": "Inspección de campo",
+      "desc": "Se revisan los espacios destinados al alojamiento de los animales, los recursos ofertados, el estado general de los animales y las instalaciones, indicador por indicador. Si no se cumple con las indicaciones, el evaluador puede suspender la evaluación."
+    },
+    {
+      "id": "EIII",
+      "num": "Etapa III",
+      "nombre": "Revisión documental",
+      "desc": "Los dueños del predio deben ofrecer la documentación y los registros necesarios para la evaluación."
+    },
+    {
+      "id": "EIV",
+      "num": "Etapa IV",
+      "nombre": "Entrega de resultados",
+      "desc": "Cálculo de resultados, clasificación final del predio y entrega por parte del evaluador."
+    }
+  ],
+  "tablaMuestra": [
+    {
+      "rango": "Menos de 10",
+      "muestra": "Todos los animales"
+    },
+    {
+      "rango": "11 – 20",
+      "muestra": "10"
+    },
+    {
+      "rango": "21 – 99",
+      "muestra": "20"
+    },
+    {
+      "rango": "100 – 499",
+      "muestra": "30"
+    },
+    {
+      "rango": "500 – 999",
+      "muestra": "40"
+    },
+    {
+      "rango": "1.000 o más",
+      "muestra": "5 % del total"
+    }
+  ],
+  "documentos": [
+    {
+      "id": "D1",
+      "nombre": "Certificado o registro de vacunación",
+      "indicador": "Vacunación vigente"
+    },
+    {
+      "id": "D2",
+      "nombre": "Registro de tratamientos veterinarios y tiempos de retiro",
+      "indicador": "Medicamentos y tiempos de retiro"
+    },
+    {
+      "id": "D3",
+      "nombre": "Historias clínicas y registro de morbilidad",
+      "indicador": "Registro de morbilidad"
+    },
+    {
+      "id": "D4",
+      "nombre": "Registro de desparasitación",
+      "indicador": "Parásitos internos"
+    },
+    {
+      "id": "D5",
+      "nombre": "Análisis de calidad del agua",
+      "indicador": "Calidad del agua"
+    },
+    {
+      "id": "D6",
+      "nombre": "Protocolo de manejo y bienestar / plan de contingencia",
+      "indicador": "Manejo veterinario"
+    },
+    {
+      "id": "D7",
+      "nombre": "Guía de movilización y registro de transporte",
+      "indicador": "Transporte sin hacinamiento"
+    }
+  ],
+  "capitulos": {
+    "C1": {
+      "nombre": "Capítulo I — Cría, producción, exportación, exhibición y deporte",
+      "total": 43,
+      "indicadores": [
+        {
+          "codigo": "I-01",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Disponibilidad de agua",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación directa de bebederos, fuentes y conducta de bebida del grupo muestreado, en al menos dos momentos del día.",
+          "preguntas": [
+            "¿Todos los équidos tienen acceso permanente a agua limpia y fresca?",
+            "¿Los bebederos o fuentes son suficientes y están bien ubicados para todo el grupo?"
+          ]
+        },
+        {
+          "codigo": "I-02",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Calidad del agua",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Verificación visual del agua y revisión documental del análisis de laboratorio vigente (pH, sólidos, coliformes).",
+          "preguntas": [
+            "¿El agua está limpia, sin olores, coloración ni residuos visibles?",
+            "¿Se cuenta con un análisis de calidad del agua vigente y firmado?"
+          ]
+        },
+        {
+          "codigo": "I-03",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Acceso a alimento",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de comederos, pasturas y rutas de acceso; verificación de que ningún animal queda excluido.",
+          "preguntas": [
+            "¿Todos los animales pueden acceder al alimento sin competencia ni bloqueos?",
+            "¿La ubicación y el número de comederos permiten el acceso de todo el grupo?"
+          ]
+        },
+        {
+          "codigo": "I-04",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Cantidad de alimento",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Estimación de la ración ofrecida frente a los requerimientos del grupo y observación del consumo y la saciedad.",
+          "preguntas": [
+            "¿La cantidad de alimento ofrecida cubre los requerimientos del grupo?",
+            "¿Se observan signos de competencia, ansiedad o alimento insuficiente?"
+          ]
+        },
+        {
+          "codigo": "I-05",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Frecuencia de alimentación",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Entrevista al personal y revisión del registro o programación de alimentación, contrastados con la observación en campo.",
+          "preguntas": [
+            "¿La frecuencia de alimentación es constante y adecuada a la especie y categoría?",
+            "¿Existe un registro o programación verificable de las raciones?"
+          ]
+        },
+        {
+          "codigo": "I-06",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Refugio / sombra",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la sombra natural o artificial disponible y del uso que hacen los animales en las horas de mayor radiación.",
+          "preguntas": [
+            "¿Todos los animales disponen de sombra suficiente en las horas críticas?",
+            "¿La sombra es accesible y no genera competencia ni hacinamiento?"
+          ]
+        },
+        {
+          "codigo": "I-07",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Protección contra lluvia",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección de techos, aleros y refugios; observación del comportamiento de los animales durante la lluvia.",
+          "preguntas": [
+            "¿Las instalaciones protegen a los animales de la lluvia directa?",
+            "¿Existen áreas secas disponibles para todo el grupo?"
+          ]
+        },
+        {
+          "codigo": "I-08",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ventilación",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Evaluación visual y sensorial de la ventilación (olores, humedad, condensación) y del diseño de aberturas.",
+          "preguntas": [
+            "¿El alojamiento tiene ventilación suficiente y sin corrientes fuertes?",
+            "¿Se perciben olores intensos a amoníaco o humedad excesiva?"
+          ]
+        },
+        {
+          "codigo": "I-09",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Temperatura adecuada",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Medición de temperatura y observación de signos de estrés térmico (sudoración, jadeo, agrupamiento).",
+          "preguntas": [
+            "¿La temperatura del alojamiento es adecuada para la especie y categoría?",
+            "¿Se observan signos de estrés por frío o por calor?"
+          ]
+        },
+        {
+          "codigo": "I-10",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Superficie de descanso",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Medición de la superficie de descanso y comparación con el número y tamaño de los animales.",
+          "preguntas": [
+            "¿Cada animal dispone de superficie suficiente para echarse y descansar?",
+            "¿La superficie es cómoda, seca y de fácil acceso?"
+          ]
+        },
+        {
+          "codigo": "I-11",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Cama seca",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección de la cama: sequedad, limpieza, espesor y frecuencia de cambio.",
+          "preguntas": [
+            "¿La cama está seca y limpia?",
+            "¿Se cambia o renueva con la frecuencia necesaria?"
+          ]
+        },
+        {
+          "codigo": "I-12",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Espacio por animal (Tabla 3)",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Medición de áreas y comparación con la Tabla 3 de la norma ICA para la categoría evaluada.",
+          "preguntas": [
+            "¿El espacio disponible cumple con la Tabla 3 de la norma ICA?",
+            "¿Se respeta el espacio individual en comederos y zonas de descanso?"
+          ]
+        },
+        {
+          "codigo": "I-13",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Piso no resbaladizo",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección y prueba de tracción del piso en zonas de paso, descanso y alimentación.",
+          "preguntas": [
+            "¿El piso ofrece tracción segura y está libre de desniveles?",
+            "¿Se observan resbalones o caídas atribuibles al piso?"
+          ]
+        },
+        {
+          "codigo": "I-14",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Drenajes",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Verificación de drenajes, pendientes y acumulación de agua o lodo en las instalaciones.",
+          "preguntas": [
+            "¿Los drenajes funcionan y evitan encharcamientos?",
+            "¿Las zonas de paso y descanso permanecen secas?"
+          ]
+        },
+        {
+          "codigo": "I-15",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Limpieza de instalaciones",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección de limpieza general, presencia de residuos, polvo y acumulación de estiércol.",
+          "preguntas": [
+            "¿Las instalaciones se mantienen limpias y sin acumulación de estiércol?",
+            "¿Existe una rutina o plan de limpieza verificable?"
+          ]
+        },
+        {
+          "codigo": "I-16",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ausencia de objetos cortopunzantes",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Recorrido visual por instalaciones y potreros en busca de objetos que puedan lesionar a los animales.",
+          "preguntas": [
+            "¿Están ausentes clavos, alambres, vidrios o bordes cortantes?",
+            "¿Las instalaciones y cercas están en buen estado y sin puntas expuestas?"
+          ]
+        },
+        {
+          "codigo": "I-17",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Área de ejercicio",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la disponibilidad y uso de áreas de movimiento o ejercicio.",
+          "preguntas": [
+            "¿Los animales disponen de área suficiente para moverse y ejercitarse?",
+            "¿El área es segura y accesible para todo el grupo?"
+          ]
+        },
+        {
+          "codigo": "I-18",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Transporte sin hacinamiento",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental de la guía de movilización y del registro de transporte; verificación visual de la densidad de carga.",
+          "preguntas": [
+            "¿La densidad de animales en el transporte permite postura y ventilación adecuadas?",
+            "¿Se cuenta con guía de movilización y registro del transporte?"
+          ]
+        },
+        {
+          "codigo": "I-19",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Aperos sin daño",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección de aperos, monturas y arreos en contacto con el animal.",
+          "preguntas": [
+            "¿Los aperos están en buen estado y ajustados sin causar lesiones?",
+            "¿Se revisan y reemplazan los elementos desgastados?"
+          ]
+        },
+        {
+          "codigo": "I-20",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Inspección sanitaria general",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Examen visual general de los animales muestreados (ojos, mucosas, pelaje, postura, apetito).",
+          "preguntas": [
+            "¿Los animales muestran un estado sanitario general adecuado?",
+            "¿Se identifican signos de enfermedad o decaimiento?"
+          ]
+        },
+        {
+          "codigo": "I-21",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cojera / locomoción",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la marcha y evaluación de la cojera en los animales muestreados.",
+          "preguntas": [
+            "¿Los animales caminan sin cojera ni dolor evidente?",
+            "¿Se identifican alteraciones de la locomoción?"
+          ]
+        },
+        {
+          "codigo": "I-22",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Lesiones en piel",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección visual de la piel y del pelaje en todo el cuerpo del animal.",
+          "preguntas": [
+            "¿La piel y el pelaje están sanos, sin lesiones ni dermatitis?",
+            "¿Se observan zonas de alopecia, costras o inflamación?"
+          ]
+        },
+        {
+          "codigo": "I-23",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Heridas abiertas",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección visual y registro de heridas abiertas o sangrantes.",
+          "preguntas": [
+            "¿Se observan heridas abiertas sin tratamiento?",
+            "¿Las heridas existentes reciben atención oportuna?"
+          ]
+        },
+        {
+          "codigo": "I-24",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Parásitos externos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección visual de piel, crin y orejas; revisión del registro de control de parásitos externos.",
+          "preguntas": [
+            "¿Se observan garrapatas, ácaros, piojos o moscas en cantidad relevante?",
+            "¿Existe control y registro de parásitos externos?"
+          ]
+        },
+        {
+          "codigo": "I-25",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Parásitos internos",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental del plan de desparasitación y de los resultados de coprológicos; verificación visual complementaria.",
+          "preguntas": [
+            "¿Se aplica un plan de desparasitación interna vigente?",
+            "¿Se cuenta con registro o diagnóstico de parásitos internos?"
+          ]
+        },
+        {
+          "codigo": "I-26",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Vacunación vigente",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental del certificado o registro de vacunación y contraste con el inventario del predio.",
+          "preguntas": [
+            "¿La vacunación está vigente según la especie y la zona?",
+            "¿Existe certificado o registro firmado por el profesional?"
+          ]
+        },
+        {
+          "codigo": "I-27",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cuidado de cascos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación del estado de los cascos y revisión del registro de recorte o herrado.",
+          "preguntas": [
+            "¿Los cascos están en buen estado y con recorte oportuno?",
+            "¿Se registra el mantenimiento de cascos?"
+          ]
+        },
+        {
+          "codigo": "I-28",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cojinete plantar",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección del cojinete plantar y de la planta del casco.",
+          "preguntas": [
+            "¿El cojinete plantar está sano y sin lesiones?",
+            "¿Se observan signos de dolor o inflamación en la planta?"
+          ]
+        },
+        {
+          "codigo": "I-29",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Ausencia de prácticas dolorosas",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Entrevista y observación de las prácticas de manejo; revisión de protocolos.",
+          "preguntas": [
+            "¿Se evitan prácticas dolorosas no justificadas (punciones, mutilaciones)?",
+            "¿Las prácticas permitidas se realizan con analgesia y protocolo?"
+          ]
+        },
+        {
+          "codigo": "I-30",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "No uso de bozal permanente",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación del uso de bozal y del tiempo que permanece puesto.",
+          "preguntas": [
+            "¿Se evita el bozal permanente o por periodos prolongados?",
+            "¿El bozal, cuando se usa, permite respirar, beber y comer?"
+          ]
+        },
+        {
+          "codigo": "I-31",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "No uso de fusta/espuelas que lesionan",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de los aperos de manejo y de las lesiones asociadas.",
+          "preguntas": [
+            "¿Se evita el uso de fusta o espuelas que causen lesiones?",
+            "¿Los elementos de manejo están diseñados para no dañar al animal?"
+          ]
+        },
+        {
+          "codigo": "I-32",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Manejo veterinario",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental del protocolo de manejo veterinario y de la atención de casos; verificación de la programación.",
+          "preguntas": [
+            "¿Existe un protocolo de manejo veterinario y plan de contingencia?",
+            "¿Se cuenta con atención veterinaria oportuna y registrada?"
+          ]
+        },
+        {
+          "codigo": "I-33",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Medicamentos y tiempos de retiro",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental de los registros de tratamientos, dosis, fechas y tiempos de retiro.",
+          "preguntas": [
+            "¿Los medicamentos se aplican con prescripción y registro?",
+            "¿Se respetan los tiempos de retiro antes de faena o consumo?"
+          ]
+        },
+        {
+          "codigo": "I-34",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Registro de morbilidad",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental de historias clínicas y del registro de morbilidad del predio.",
+          "preguntas": [
+            "¿Se registran los casos de enfermedad y su evolución?",
+            "¿El registro permite trazabilidad de tratamientos y resultados?"
+          ]
+        },
+        {
+          "codigo": "I-35",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Nutrición y enfermedad",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Análisis de la relación entre la dieta y la presencia de enfermedades metabólicas o carenciales.",
+          "preguntas": [
+            "¿La nutrición se ajusta para prevenir enfermedades carenciales?",
+            "¿Se identifican casos asociados a deficiencias o excesos alimenticios?"
+          ]
+        },
+        {
+          "codigo": "I-36",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ausencia de miedo al personal",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la reacción de los animales ante la presencia y el manejo del personal.",
+          "preguntas": [
+            "¿Los animales se acercan o permanecen tranquilos ante el personal?",
+            "¿Se observan respuestas de huida, agresividad o estrés?"
+          ]
+        },
+        {
+          "codigo": "I-37",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Manejo sin violencia",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de las prácticas de manejo y entrevista al personal.",
+          "preguntas": [
+            "¿El manejo se realiza sin golpes, gritos ni tirones bruscos?",
+            "¿El personal está capacitado en manejo de bajo estrés?"
+          ]
+        },
+        {
+          "codigo": "I-38",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ruidos y sobresaltos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación del entorno y de la reacción de los animales ante ruidos y estímulos repentinos.",
+          "preguntas": [
+            "¿El entorno está libre de ruidos repentinos o fuentes de sobresalto?",
+            "¿Los animales muestran sobresaltos frecuentes?"
+          ]
+        },
+        {
+          "codigo": "I-39",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Expresión de conducta natural",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación del comportamiento en el hábitat y de la posibilidad de expresar conductas propias de la especie.",
+          "preguntas": [
+            "¿Los animales pueden expresar conductas naturales (pastar, revolcarse, socializar)?",
+            "¿El manejo o las instalaciones impiden la expresión de esas conductas?"
+          ]
+        },
+        {
+          "codigo": "I-40",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Contacto social con otros équidos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la composición de los grupos y de las interacciones sociales.",
+          "preguntas": [
+            "¿Los animales se mantienen en grupos compatibles?",
+            "¿Se evita el aislamiento social innecesario?"
+          ]
+        },
+        {
+          "codigo": "I-41",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Libertad de movimiento",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Medición del espacio disponible y observación de la movilidad de los animales.",
+          "preguntas": [
+            "¿Los animales pueden moverse, caminar y cambiar de postura libremente?",
+            "¿El espacio o los amarres limitan el movimiento?"
+          ]
+        },
+        {
+          "codigo": "I-42",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Ausencia de estereotipias",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de conductas repetitivas (balanceo, morder barrotes, coprofagia) y de su frecuencia.",
+          "preguntas": [
+            "¿Se observan estereotipias o conductas repetitivas?",
+            "¿Se investigan y corrigen sus causas?"
+          ]
+        },
+        {
+          "codigo": "I-43",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Acceso a pastoreo",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la disponibilidad de pastoreo y del tiempo de acceso.",
+          "preguntas": [
+            "¿Los animales tienen acceso a pastoreo según su categoría?",
+            "¿El tiempo de pastoreo es suficiente y seguro?"
+          ]
+        }
+      ]
+    },
+    "C2": {
+      "nombre": "Capítulo II — Traspatio y trabajo",
+      "total": 32,
+      "indicadores": [
+        {
+          "codigo": "II-01",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Disponibilidad de agua",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación directa de bebederos, fuentes y conducta de bebida del grupo muestreado, en al menos dos momentos del día.",
+          "preguntas": [
+            "¿Todos los équidos tienen acceso permanente a agua limpia y fresca?",
+            "¿Los bebederos o fuentes son suficientes y están bien ubicados para todo el grupo?"
+          ]
+        },
+        {
+          "codigo": "II-02",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Calidad del agua",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Verificación visual del agua y revisión documental del análisis de laboratorio vigente (pH, sólidos, coliformes).",
+          "preguntas": [
+            "¿El agua está limpia, sin olores, coloración ni residuos visibles?",
+            "¿Se cuenta con un análisis de calidad del agua vigente y firmado?"
+          ]
+        },
+        {
+          "codigo": "II-03",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Acceso a alimento",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de comederos, pasturas y rutas de acceso; verificación de que ningún animal queda excluido.",
+          "preguntas": [
+            "¿Todos los animales pueden acceder al alimento sin competencia ni bloqueos?",
+            "¿La ubicación y el número de comederos permiten el acceso de todo el grupo?"
+          ]
+        },
+        {
+          "codigo": "II-04",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Cantidad de alimento",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Estimación de la ración ofrecida frente a los requerimientos del grupo y observación del consumo y la saciedad.",
+          "preguntas": [
+            "¿La cantidad de alimento ofrecida cubre los requerimientos del grupo?",
+            "¿Se observan signos de competencia, ansiedad o alimento insuficiente?"
+          ]
+        },
+        {
+          "codigo": "II-05",
+          "libertadId": "L1",
+          "libertad": "Hambre, sed y malnutrición",
+          "pesoLibertad": 0.2,
+          "descripcion": "Frecuencia de alimentación",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Entrevista al personal y revisión del registro o programación de alimentación, contrastados con la observación en campo.",
+          "preguntas": [
+            "¿La frecuencia de alimentación es constante y adecuada a la especie y categoría?",
+            "¿Existe un registro o programación verificable de las raciones?"
+          ]
+        },
+        {
+          "codigo": "II-06",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Refugio / sombra",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la sombra natural o artificial disponible y del uso que hacen los animales en las horas de mayor radiación.",
+          "preguntas": [
+            "¿Todos los animales disponen de sombra suficiente en las horas críticas?",
+            "¿La sombra es accesible y no genera competencia ni hacinamiento?"
+          ]
+        },
+        {
+          "codigo": "II-07",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Protección contra lluvia",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección de techos, aleros y refugios; observación del comportamiento de los animales durante la lluvia.",
+          "preguntas": [
+            "¿Las instalaciones protegen a los animales de la lluvia directa?",
+            "¿Existen áreas secas disponibles para todo el grupo?"
+          ]
+        },
+        {
+          "codigo": "II-08",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ventilación",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Evaluación visual y sensorial de la ventilación (olores, humedad, condensación) y del diseño de aberturas.",
+          "preguntas": [
+            "¿El alojamiento tiene ventilación suficiente y sin corrientes fuertes?",
+            "¿Se perciben olores intensos a amoníaco o humedad excesiva?"
+          ]
+        },
+        {
+          "codigo": "II-09",
+          "libertadId": "L2",
+          "libertad": "Molestias físicas y térmicas",
+          "pesoLibertad": 0.15,
+          "descripcion": "Temperatura adecuada",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Medición de temperatura y observación de signos de estrés térmico (sudoración, jadeo, agrupamiento).",
+          "preguntas": [
+            "¿La temperatura del alojamiento es adecuada para la especie y categoría?",
+            "¿Se observan signos de estrés por frío o por calor?"
+          ]
+        },
+        {
+          "codigo": "II-10",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Inspección sanitaria general",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Examen visual general de los animales muestreados (ojos, mucosas, pelaje, postura, apetito).",
+          "preguntas": [
+            "¿Los animales muestran un estado sanitario general adecuado?",
+            "¿Se identifican signos de enfermedad o decaimiento?"
+          ]
+        },
+        {
+          "codigo": "II-11",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cojera / locomoción",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la marcha y evaluación de la cojera en los animales muestreados.",
+          "preguntas": [
+            "¿Los animales caminan sin cojera ni dolor evidente?",
+            "¿Se identifican alteraciones de la locomoción?"
+          ]
+        },
+        {
+          "codigo": "II-12",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Lesiones en piel",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección visual de la piel y del pelaje en todo el cuerpo del animal.",
+          "preguntas": [
+            "¿La piel y el pelaje están sanos, sin lesiones ni dermatitis?",
+            "¿Se observan zonas de alopecia, costras o inflamación?"
+          ]
+        },
+        {
+          "codigo": "II-13",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Heridas abiertas",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección visual y registro de heridas abiertas o sangrantes.",
+          "preguntas": [
+            "¿Se observan heridas abiertas sin tratamiento?",
+            "¿Las heridas existentes reciben atención oportuna?"
+          ]
+        },
+        {
+          "codigo": "II-14",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Parásitos externos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección visual de piel, crin y orejas; revisión del registro de control de parásitos externos.",
+          "preguntas": [
+            "¿Se observan garrapatas, ácaros, piojos o moscas en cantidad relevante?",
+            "¿Existe control y registro de parásitos externos?"
+          ]
+        },
+        {
+          "codigo": "II-15",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Parásitos internos",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental del plan de desparasitación y de los resultados de coprológicos; verificación visual complementaria.",
+          "preguntas": [
+            "¿Se aplica un plan de desparasitación interna vigente?",
+            "¿Se cuenta con registro o diagnóstico de parásitos internos?"
+          ]
+        },
+        {
+          "codigo": "II-16",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Vacunación vigente",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental del certificado o registro de vacunación y contraste con el inventario del predio.",
+          "preguntas": [
+            "¿La vacunación está vigente según la especie y la zona?",
+            "¿Existe certificado o registro firmado por el profesional?"
+          ]
+        },
+        {
+          "codigo": "II-17",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cuidado de cascos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación del estado de los cascos y revisión del registro de recorte o herrado.",
+          "preguntas": [
+            "¿Los cascos están en buen estado y con recorte oportuno?",
+            "¿Se registra el mantenimiento de cascos?"
+          ]
+        },
+        {
+          "codigo": "II-18",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Cojinete plantar",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección del cojinete plantar y de la planta del casco.",
+          "preguntas": [
+            "¿El cojinete plantar está sano y sin lesiones?",
+            "¿Se observan signos de dolor o inflamación en la planta?"
+          ]
+        },
+        {
+          "codigo": "II-19",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Ausencia de prácticas dolorosas",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Entrevista y observación de las prácticas de manejo; revisión de protocolos.",
+          "preguntas": [
+            "¿Se evitan prácticas dolorosas no justificadas (punciones, mutilaciones)?",
+            "¿Las prácticas permitidas se realizan con analgesia y protocolo?"
+          ]
+        },
+        {
+          "codigo": "II-20",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "No uso de bozal permanente",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación del uso de bozal y del tiempo que permanece puesto.",
+          "preguntas": [
+            "¿Se evita el bozal permanente o por periodos prolongados?",
+            "¿El bozal, cuando se usa, permite respirar, beber y comer?"
+          ]
+        },
+        {
+          "codigo": "II-21",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "No uso de fusta/espuelas que lesionan",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de los aperos de manejo y de las lesiones asociadas.",
+          "preguntas": [
+            "¿Se evita el uso de fusta o espuelas que causen lesiones?",
+            "¿Los elementos de manejo están diseñados para no dañar al animal?"
+          ]
+        },
+        {
+          "codigo": "II-22",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Manejo veterinario",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental del protocolo de manejo veterinario y de la atención de casos; verificación de la programación.",
+          "preguntas": [
+            "¿Existe un protocolo de manejo veterinario y plan de contingencia?",
+            "¿Se cuenta con atención veterinaria oportuna y registrada?"
+          ]
+        },
+        {
+          "codigo": "II-23",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Medicamentos y tiempos de retiro",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental de los registros de tratamientos, dosis, fechas y tiempos de retiro.",
+          "preguntas": [
+            "¿Los medicamentos se aplican con prescripción y registro?",
+            "¿Se respetan los tiempos de retiro antes de faena o consumo?"
+          ]
+        },
+        {
+          "codigo": "II-24",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Registro de morbilidad",
+          "fase": "documental",
+          "metodo": "Documental",
+          "metodologia": "Revisión documental de historias clínicas y del registro de morbilidad del predio.",
+          "preguntas": [
+            "¿Se registran los casos de enfermedad y su evolución?",
+            "¿El registro permite trazabilidad de tratamientos y resultados?"
+          ]
+        },
+        {
+          "codigo": "II-25",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Nutrición y enfermedad",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Análisis de la relación entre la dieta y la presencia de enfermedades metabólicas o carenciales.",
+          "preguntas": [
+            "¿La nutrición se ajusta para prevenir enfermedades carenciales?",
+            "¿Se identifican casos asociados a deficiencias o excesos alimenticios?"
+          ]
+        },
+        {
+          "codigo": "II-26",
+          "libertadId": "L3",
+          "libertad": "Dolor, lesión y enfermedad",
+          "pesoLibertad": 0.3,
+          "descripcion": "Lesiones por aperos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Inspección de las zonas de contacto con aperos y revisión de las lesiones presentes.",
+          "preguntas": [
+            "¿Se observan lesiones atribuibles a monturas o arreos?",
+            "¿Se ajustan o cambian los aperos que generan daño?"
+          ]
+        },
+        {
+          "codigo": "II-27",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ausencia de miedo al personal",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la reacción de los animales ante la presencia y el manejo del personal.",
+          "preguntas": [
+            "¿Los animales se acercan o permanecen tranquilos ante el personal?",
+            "¿Se observan respuestas de huida, agresividad o estrés?"
+          ]
+        },
+        {
+          "codigo": "II-28",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Manejo sin violencia",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de las prácticas de manejo y entrevista al personal.",
+          "preguntas": [
+            "¿El manejo se realiza sin golpes, gritos ni tirones bruscos?",
+            "¿El personal está capacitado en manejo de bajo estrés?"
+          ]
+        },
+        {
+          "codigo": "II-29",
+          "libertadId": "L4",
+          "libertad": "Temor y angustia",
+          "pesoLibertad": 0.15,
+          "descripcion": "Ruidos y sobresaltos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación del entorno y de la reacción de los animales ante ruidos y estímulos repentinos.",
+          "preguntas": [
+            "¿El entorno está libre de ruidos repentinos o fuentes de sobresalto?",
+            "¿Los animales muestran sobresaltos frecuentes?"
+          ]
+        },
+        {
+          "codigo": "II-30",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Expresión de conducta natural",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación del comportamiento en el hábitat y de la posibilidad de expresar conductas propias de la especie.",
+          "preguntas": [
+            "¿Los animales pueden expresar conductas naturales (pastar, revolcarse, socializar)?",
+            "¿El manejo o las instalaciones impiden la expresión de esas conductas?"
+          ]
+        },
+        {
+          "codigo": "II-31",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Contacto social con otros équidos",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Observación de la composición de los grupos y de las interacciones sociales.",
+          "preguntas": [
+            "¿Los animales se mantienen en grupos compatibles?",
+            "¿Se evita el aislamiento social innecesario?"
+          ]
+        },
+        {
+          "codigo": "II-32",
+          "libertadId": "L5",
+          "libertad": "Comportamiento natural",
+          "pesoLibertad": 0.2,
+          "descripcion": "Libertad de movimiento",
+          "fase": "campo",
+          "metodo": "Visual",
+          "metodologia": "Medición del espacio disponible y observación de la movilidad de los animales.",
+          "preguntas": [
+            "¿Los animales pueden moverse, caminar y cambiar de postura libremente?",
+            "¿El espacio o los amarres limitan el movimiento?"
+          ]
+        }
+      ]
+    }
+  }
+}

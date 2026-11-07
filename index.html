@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema ICA — Bienestar Animal en Équidos</title>
+    <link rel="icon" type="image/png" href="assets/logo-ica.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="app-shell">
+
+<!-- ============================ MENÚ LATERAL ============================ -->
+<aside id="mainNav" class="sidebar" style="display:none;">
+    <div class="sidebar-brand">
+        <img src="assets/logo-ica.png" alt="ICA — Instituto Colombiano Agropecuario" class="logo">
+        <div class="brand-text">
+            <h1>Sistema de Bienestar Animal en Équidos</h1>
+            <p>Metodología ICA V2.0 (2023)</p>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Menú principal">
+        <span class="nav-section">Evaluación</span>
+        <button class="nav-btn" data-screen="Dashboard" type="button">Dashboard</button>
+        <button class="nav-btn" data-screen="Fincas" type="button">Fincas</button>
+        <button class="nav-btn" data-screen="Inventario" type="button">Inventario</button>
+        <button class="nav-btn" data-screen="NuevaEvaluacion" type="button">Nueva evaluación</button>
+        <button class="nav-btn" data-screen="Evaluacion" type="button">Evaluación en curso</button>
+        <button class="nav-btn" data-screen="Historial" type="button">Historial</button>
+        <button class="nav-btn" data-screen="PlanMejora" type="button">Plan de mejora</button>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div id="userInfo" class="user-info" style="display:none;">
+            <span id="userName"></span>
+            <button id="logoutBtn" class="btn btn-outline btn-sm" type="button">Cerrar sesión</button>
+        </div>
+        <p class="sidebar-note">Instituto Colombiano Agropecuario</p>
+    </div>
+</aside>
+
+<div class="app-main">
+
+    <!-- ============================ BARRA SUPERIOR ============================ -->
+    <header class="topbar">
+        <div class="topbar-title">
+            <span class="topbar-kicker">Panel de evaluación</span>
+            <strong>Bienestar animal en équidos</strong>
+        </div>
+        <div class="header-right">
+            <div id="fincaChip" class="finca-chip" style="display:none;"></div>
+        </div>
+    </header>
+
+<main>
+
+<!-- ============================ LOGIN ============================ -->
+<section id="screenLogin" class="screen active">
+    <div class="login-wrap">
+        <div class="card login-card">
+            <img src="assets/logo-ica.png" alt="ICA" class="login-logo">
+            <h2>Ingreso al sistema</h2>
+            <p class="muted">Evaluación del bienestar animal en équidos — ICA V2.0 (2023)</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+            </form>
+            <p class="hint">Prototipo académico: cualquier usuario y contraseña permiten el ingreso.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ DASHBOARD ============================ -->
+<section id="screenDashboard" class="screen">
+    <div class="container">
+        <div class="page-title">
+            <h2>Panel general</h2>
+            <p class="muted" id="dashFincaLabel"></p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Fincas registradas</span>
+                <span class="stat-value" id="dashFincas">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Équidos en la finca activa</span>
+                <span class="stat-value" id="dashAnimales">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Evaluaciones</span>
+                <span class="stat-value" id="dashEvaluaciones">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Última clasificación</span>
+                <span class="stat-value" id="dashClasificacion">—</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Evaluaciones recientes</h3>
+            <div class="table-wrap">
+                <table class="table" id="tblDashEvals">
+                    <thead>
+                        <tr>
+                            <th>Finca</th><th>Capítulo</th><th>Fecha</th><th>Etapa</th>
+                            <th>Estado</th><th>Puntaje</th><th>Clasificación</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ FINCAS ============================ -->
+<section id="screenFincas" class="screen">
+    <div class="container">
+        <div class="page-title">
+            <h2>Fincas</h2>
+            <p class="muted">Registre y seleccione la finca de trabajo. Una vez seleccionada, no tendrá que elegirla de nuevo al iniciar una evaluación.</p>
+        </div>
+
+        <div class="card">
+            <h3>Registrar finca</h3>
+            <form id="fincaForm">
+                <div class="form-row">
+                    <div class="form-group"><label>Nombre de la finca *</label><input type="text" id="f-nombre" required></div>
+                    <div class="form-group"><label>Propietario *</label><input type="text" id="f-propietario" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Departamento *</label><input type="text" id="f-departamento" required></div>
+                    <div class="form-group"><label>Municipio *</label><input type="text" id="f-municipio" required></div>
+                    <div class="form-group"><label>Vereda *</label><input type="text" id="f-vereda" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Latitud</label><input type="number" step="0.000001" id="f-lat"></div>
+                    <div class="form-group"><label>Longitud</label><input type="number" step="0.000001" id="f-lon"></div>
+                    <div class="form-group"><label>Altitud (msnm) *</label><input type="number" id="f-msnm" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de predio *</label>
+                        <select id="f-tipo" required>
+                            <option value="">Seleccione…</option>
+                            <option value="criadero">Criadero</option>
+                            <option value="deporte">Deporte</option>
+                            <option value="traspatio">Traspatio</option>
+                            <option value="trabajo">Trabajo</option>
+                            <option value="exhibicion">Exhibición</option>
+                            <option value="produccion">Producción</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sistema productivo *</label>
+                        <select id="f-sistema" required>
+                            <option value="">Seleccione…</option>
+                            <option value="pesebrera">Pesebrera</option>
+                            <option value="potrero">Potrero</option>
+                            <option value="mixto">Mixto</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar finca</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>Fincas registradas</h3>
+            <div class="table-wrap">
+                <table class="table" id="tblFincas">
+                    <thead>
+                        <tr>
+                            <th>Finca</th><th>Propietario</th><th>Ubicación</th><th>msnm</th>
+                            <th>Tipo</th><th>Sistema</th><th>Animales</th><th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ INVENTARIO ============================ -->
+<section id="screenInventario" class="screen">
+    <div class="container">
+        <div class="page-title">
+            <h2>Inventario equino</h2>
+            <p class="muted" id="invFincaLabel"></p>
+        </div>
+
+        <div id="invEmpty" class="card empty" style="display:none;">
+            <p>No hay una finca activa. Seleccione o registre una finca para continuar.</p>
+            <button class="btn btn-primary" data-screen="Fincas" type="button">Ir a Fincas</button>
+        </div>
+
+        <div id="invContent">
+            <div class="card">
+                <h3>Agregar grupo de animales</h3>
+                <form id="equinoForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Especie *</label>
+                            <select id="e-especie" required>
+                                <option value="caballar">Caballar</option>
+                                <option value="asnal">Asnal</option>
+                                <option value="mular">Mular</option>
+                                <option value="burdegano">Burdégano</option>
+                                <option value="cebroide">Cebroide</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Grupo etario *</label>
+                            <select id="e-edad" required>
+                                <option value="cria">Cría lactante</option>
+                                <option value="joven">Joven</option>
+                                <option value="adulto">Adulto</option>
+                                <option value="geronte">Geronte</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Sexo *</label>
+                            <select id="e-sexo" required>
+                                <option value="macho">Macho</option>
+                                <option value="hembra">Hembra</option>
+                                <option value="indeterminado">Indeterminado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad *</label>
+                            <input type="number" id="e-cantidad" min="1" value="1" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Identificación / nombre (opcional)</label><input type="text" id="e-identificacion"></div>
+                        <div class="form-group"><label>Ubicación (potrero / corral)</label><input type="text" id="e-ubicacion" placeholder="Ej.: Potrero 2"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar al inventario</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Animales registrados</h3>
+                <div class="table-wrap">
+                    <table class="table" id="tblInventario">
+                        <thead>
+                            <tr><th>Especie</th><th>Grupo etario</th><th>Sexo</th><th>Cantidad</th><th>Identificación</th><th>Ubicación</th><th></th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Tamaño del predio y muestra mínima</h3>
+                <p class="sample-line" id="sampleResumen">Total de équidos: 0 → Muestra mínima: 0</p>
+                <div class="table-wrap">
+                    <table class="table table-compact" id="tblMuestra">
+                        <thead>
+                            <tr><th>N.º de équidos en la finca</th><th>Muestra mínima</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <p class="hint">Tabla 1 de la norma ICA (Capítulo I). La muestra se distribuye proporcionalmente entre los grupos etarios.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ NUEVA EVALUACIÓN ============================ -->
+<section id="screenNuevaEvaluacion" class="screen">
+    <div class="container">
+        <div class="page-title">
+            <h2>Nueva evaluación</h2>
+            <p class="muted">La finca activa se toma automáticamente; no es necesario volver a seleccionarla.</p>
+        </div>
+
+        <div id="neEmpty" class="card empty" style="display:none;"></div>
+
+        <div id="neContent">
+            <div class="card">
+                <h3>Finca de trabajo</h3>
+                <div id="neFincaResumen" class="finca-resumen"></div>
+            </div>
+
+            <div class="card">
+                <h3>Datos de la evaluación</h3>
+                <form id="nuevaEvalForm">
+                    <div class="form-group">
+                        <label for="evalCapitulo">Capítulo de la metodología *</label>
+                        <select id="evalCapitulo" required>
+                            <option value="C1">Capítulo I — Cría, producción, exportación, exhibición y deporte (43 indicadores)</option>
+                            <option value="C2">Capítulo II — Traspatio y trabajo (32 indicadores)</option>
+                        </select>
+                    </div>
+                    <div id="neMuestraInfo" class="info-box"></div>
+                    <button type="submit" class="btn btn-primary">Iniciar evaluación</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ EVALUACIÓN ============================ -->
+<section id="screenEvaluacion" class="screen">
+    <div class="container">
+        <div id="stepper" class="stepper"></div>
+        <div id="evalHeader"></div>
+        <div id="evalBody"></div>
+    </div>
+</section>
+
+<!-- ============================ HISTORIAL ============================ -->
+<section id="screenHistorial" class="screen">
+    <div class="container">
+        <div class="page-title">
+            <h2>Historial de evaluaciones</h2>
+            <p class="muted">Resultados y clasificación final de cada predio.</p>
+        </div>
+        <div class="card">
+            <div class="table-wrap">
+                <table class="table" id="tblHistorial">
+                    <thead>
+                        <tr>
+                            <th>Finca</th><th>Capítulo</th><th>Fecha</th><th>Etapa</th>
+                            <th>Estado</th><th>Puntaje</th><th>Clasificación ICA</th><th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ PLAN DE MEJORA ============================ -->
+<section id="screenPlanMejora" class="screen">
+    <div class="container">
+        <div class="page-title">
+            <h2>Plan de mejora</h2>
+            <p class="muted">Hallazgos de la evaluación con acciones, responsables y fechas.</p>
+        </div>
+        <div class="card">
+            <div id="planMejoraContent"></div>
+            <div class="actions">
+                <button id="exportPdfBtn" class="btn btn-primary" type="button">Exportar plan de mejora (PDF)</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+    <footer class="app-footer">
+        <span>Instituto Colombiano Agropecuario — Metodología para Evaluar el Bienestar Animal en Équidos V2.0 (2023)</span>
+    </footer>
+
+</div><!-- /.app-main -->
+</div><!-- /.app-shell -->
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
