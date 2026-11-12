@@ -6,9 +6,9 @@
 // ============================================================================
 
 export const MODELOS_PERMITIDOS = Object.freeze([
-    'gemini-3.8-flash',
-    'gemini-3.8-flash-lite',
-    'gemini-3-flash-preview'
+    'gemini-2.5-flash',
+    'gemini-2.5-flash-lite',
+    'gemini-2.0-flash'
 ]);
 
 export const LIMITE_PETICIONES = 15;

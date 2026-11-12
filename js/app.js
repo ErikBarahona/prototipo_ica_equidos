@@ -6,7 +6,7 @@
 const STORAGE_KEY = 'ica_equidos_v3';
 const GEMINI_KEY_STORAGE = 'ica_gemini_api_key';
 // Se intentan en orden; si un modelo está saturado (503) o ya no existe (404) se pasa al siguiente.
-const GEMINI_MODELS = ['gemini-3.8-flash', 'gemini-3.8-flash-lite', 'gemini-3-flash-preview'];
+const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash'];
 const GEMINI_MODEL = GEMINI_MODELS[0];
 const GEMINI_PROXY_URL = '/api/gemini';   // proxy del servidor; la clave vive solo allí
 const GEMINI_MAX_INTENTOS = 2;        // intentos por modelo (1 reintento)
