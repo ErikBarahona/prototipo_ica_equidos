@@ -1,0 +1,16 @@
+# El secreto nunca debe llegar ni al contexto de construcción de la imagen.
+.git
+.env
+.env.*
+!.env.example
+
+# Adaptadores de otras plataformas y documentación (no se copian a la imagen).
+api/
+functions/
+PROMPT_MOCKUP.md
+README_PROTOCOLO.md
+
+node_modules/
+*.log
+.DS_Store
+Thumbs.db

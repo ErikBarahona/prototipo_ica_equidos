@@ -1,9 +1,10 @@
-version: '3.8'
 services:
   web:
     build: .
     container_name: prototipo_ica_frontend
     ports:
       - "8080:80"
+    environment:
+      # Se toma del archivo .env (misma carpeta que este compose) o del entorno.
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     restart: always
-    

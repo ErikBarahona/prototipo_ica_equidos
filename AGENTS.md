@@ -2,14 +2,15 @@
 
 ## What this repo is
 
-- Single-page, no-build prototype (HTML + CSS + vanilla JS) of the ICA equine animal-welfare evaluation system. No backend: auth is fake and all data lives in `localStorage`. The only outbound call is the optional Gemini plan.
-- **The core app must keep working by opening `index.html` directly (`file://`) and offline.** Do not introduce npm, bundlers, frameworks, ES modules, or CDN dependencies. `js/html2pdf.bundle.min.js` is vendored for this reason.
+- Single-page, no-build prototype (HTML + CSS + vanilla JS) of the ICA equine animal-welfare evaluation system. No backend for the app itself: auth is fake and all data lives in `localStorage`. The only outbound call is the optional Gemini plan, which goes through the `/api/gemini` proxy (or directly to Google with a user-supplied key).
+- **The core app must keep working by opening `index.html` directly (`file://`) and offline.** Only the AI plan needs the server or an own key. Do not introduce npm, bundlers, frameworks, ES modules in the frontend, or CDN dependencies. `js/html2pdf.bundle.min.js` is vendored for this reason; the Node proxy uses native modules only.
 - UI text, docs, and most identifiers are Spanish (Colombia). Keep new user-facing copy in Spanish.
 
 ## Run and verify
 
 - Run: double-click `index.html`, or `Start-Process .\index.html`.
-- Syntax check (there is no test/lint/build suite): `node --check js/data.js` and `node --check js/app.js`.
+- For the AI plan without a user key, run the Docker deployment: `Copy-Item .env.example .env` (set `GEMINI_API_KEY`), then `docker compose up --build` and open `http://localhost:8080`.
+- Syntax check (there is no test/lint/build suite): `node --check js/data.js`, `node --check js/app.js`, `node --check server/proxy.js`, `node --check api/gemini.js`, `node --check functions/api/gemini.js` and `node --check server/gemini-core.mjs`.
 - Seed/reset data: in DevTools run `localStorage.removeItem('ica_equidos_v3')`, then reload.
 - Manual smoke path: login (any credentials) → create farm (becomes active) → add inventory group → new evaluation → Etapa I (add a potrero/corral) → Etapa II scores → Etapa III documents → Etapa IV finalize/PDF.
 
@@ -39,10 +40,19 @@
 
 ## Gemini AI plan
 
-- `generar-plan-ia` (Etapa IV and “Plan de mejora”) calls `generarPlanIA()`. The API key is user-supplied and stored unencrypted in `localStorage` under `ica_gemini_api_key`; never commit or log it.
+- `generar-plan-ia` (Etapa IV and “Plan de mejora”) calls `generarPlanIA()`. The normal path uses the server proxy `/api/gemini`, whose key lives only in the `GEMINI_API_KEY` environment variable. A user key is optional (advanced mode) and stored unencrypted in `localStorage` under `ica_gemini_api_key`; never commit or log either key.
+- Hybrid mode in `solicitarPlanGemini()`: with a saved user key the browser calls Google directly and sends `x-goog-api-key`; without one it sends `{ modelo, payload }` to `/api/gemini`. If a saved key is rejected (401/403), it is cleared and the same request is retried through the proxy. On `file://` without a key, the UI explains that the server is required.
 - The request sends compact structured JSON from `construirDatosEvaluacionIA()` to the `GEMINI_MODELS` list (`gemini-3.8-flash`, `gemini-3.8-flash-lite`, `gemini-3-flash-preview`), not the rendered PDF. The payload carries the global/per-freedom numeric summary, only indicators scored below 75, and only documents whose state is not "Presenta". It retries 429/500/503 once (1.5 s wait) and falls back to the next model on 404/503. The result is saved separately as `ev.planIA`, leaving the manual `ev.plan` intact.
+- Errors produced by the proxy itself carry `error.origen = 'proxy_ica'` (missing key, rate limit, invalid model/payload); they stop the loop immediately and show the server message. Upstream Google errors are passed through unchanged and keep the normal retry/fallback behavior.
 - Each Gemini `fetch` runs under an `AbortController` with a `GEMINI_TIMEOUT_MS` (15 s) limit, cleared in `finally`. A timeout does not retry the same model: it moves straight to the next one; if every model times out, the toast reports the 15 s limit and the last model tried.
 - `generationConfig` requests `thinkingConfig: { thinkingLevel: 'LOW' }` to keep latency low. If a model rejects that field with HTTP 400, the same request is retried once without `thinkingConfig`; an unrelated 400 is not retried. The loading button shows the elapsed seconds.
 - The AI response is re-filtered against the evaluation before saving and again when rendering (`filtrarHallazgosIA` / `filtrarDocumentosIA`): only indicators whose real score is below 75 and documents whose real state is not "Presenta" are shown, even for plans generated before the filter existed.
 - PDF export sets `pagebreak: { mode: ['css', 'legacy'], avoid: [...] }` and the CSS uses `break-inside: avoid` so findings cards, table rows, and summary/recommendation blocks are not split across pages.
 - PDF export reuses `exportPdf()`/html2pdf. Elements marked `data-pdf-ignore` (for example the AI toolbar) are hidden during export.
+
+## Gemini proxy and deployment
+
+- `POST /api/gemini` accepts `{ modelo, payload }`. `server/gemini-core.mjs` is the shared, dependency-free core: allowed-model list, 15 requests/minute/IP sliding window, 256 KB body limit, 20 s upstream timeout, and the call to `https://generativelanguage.googleapis.com/v1beta/models/<modelo>:generateContent?key=...`.
+- Adapters: `server/proxy.js` (Node `http` server, `PORT` default 3000, binds `127.0.0.1` by default) serves both `/api/gemini` and `/api/gemini/health`; `api/gemini.js` is the Vercel function; `functions/api/gemini.js` is the Cloudflare Pages Function. Rate limiting is in-memory and per instance (best effort in serverless).
+- Docker: the image installs `nodejs` on `nginx:alpine` and starts the proxy from `/docker-entrypoint.d/40-gemini-proxy.sh`; `nginx/default.conf` proxies `/api/gemini` to `127.0.0.1:3000` and exposes only the static app. `docker-compose.yml` passes `GEMINI_API_KEY` from the environment/`.env`; `.env.example` documents it, `.gitignore` excludes `.env` and `.dockerignore` keeps it out of the build context.
+- The key is never served by Nginx, never embedded in the frontend, and never written to `localStorage` unless a user explicitly saves an own key in “Configuración avanzada: usar clave propia”.

@@ -8,6 +8,7 @@ const GEMINI_KEY_STORAGE = 'ica_gemini_api_key';
 // Se intentan en orden; si un modelo está saturado (503) o ya no existe (404) se pasa al siguiente.
 const GEMINI_MODELS = ['gemini-3.8-flash', 'gemini-3.8-flash-lite', 'gemini-3-flash-preview'];
 const GEMINI_MODEL = GEMINI_MODELS[0];
+const GEMINI_PROXY_URL = '/api/gemini';   // proxy del servidor; la clave vive solo allí
 const GEMINI_MAX_INTENTOS = 2;        // intentos por modelo (1 reintento)
 const GEMINI_ESPERA_REINTENTO_MS = 1500;
 const GEMINI_TIMEOUT_MS = 15000;      // espera máxima por intento antes de pasar al siguiente modelo
@@ -1076,11 +1077,8 @@ async function generarPlanIA(ev, triggerEl) {
         return;
     }
 
-    const apiKey = getGeminiApiKey();
-    if (!apiKey) {
-        abrirModalClave(ev.id);
-        return;
-    }
+    // Sin clave guardada se usa el proxy del servidor (modo público normal).
+    let apiKey = getGeminiApiKey();
 
     planIAEnCurso = ev.id;
     iaSegundosTranscurridos = 0;
@@ -1110,8 +1108,19 @@ async function generarPlanIA(ev, triggerEl) {
         };
 
         // Si el modelo no acepta thinkingConfig, se reintenta una vez sin ese campo.
+        // Si una clave propia guardada deja de ser válida, se borra y se continúa
+        // automáticamente con el proxy del sitio para no bloquear al visitante.
         const pedirGemini = async (modelo) => {
             let res = await solicitarPlanGemini(apiKey, cuerpo, modelo);
+
+            if (!res.ok && !res.viaProxy &&
+                esErrorDeClaveGemini(res.status, mensajeApiGemini(res.data))) {
+                clearGeminiApiKey();
+                apiKey = '';
+                toast('La clave propia de Gemini no es válida. Se usará el servidor del sitio.', 'error');
+                res = await solicitarPlanGemini('', cuerpo, modelo);
+            }
+
             if (!res.ok && res.status === 400 && cuerpo.generationConfig.thinkingConfig &&
                 esErrorThinkingConfigGemini(res)) {
                 console.info('Gemini rechazó thinkingConfig; se reintenta sin ese parámetro.');
@@ -1152,7 +1161,14 @@ async function generarPlanIA(ev, triggerEl) {
                     break;
                 }
 
-                if (esErrorDeClaveGemini(res.status, detalle)) {
+                // Errores propios del proxy (sin clave configurada, límite por IP,
+                // modelo no permitido): se informan tal cual y no se reintentan.
+                if (esErrorProxyGemini(res)) {
+                    detener = true;
+                    break;
+                }
+
+                if (!res.viaProxy && esErrorDeClaveGemini(res.status, detalle)) {
                     clearGeminiApiKey();
                     toast('La API key de Gemini no es válida. Ingrese una nueva.', 'error');
                     abrirModalClave(ev.id);
@@ -1206,6 +1222,31 @@ async function generarPlanIA(ev, triggerEl) {
 }
 
 async function solicitarPlanGemini(apiKey, cuerpo, modelo) {
+    // Modo híbrido: con clave propia se llama directo a Google; sin clave se usa
+    // el proxy /api/gemini del sitio, que guarda la clave en el servidor.
+    const usaProxy = !apiKey;
+
+    if (usaProxy && typeof location !== 'undefined' && location.protocol === 'file:') {
+        throw new Error('El plan de mejora con IA necesita el servidor del sitio. ' +
+            'Abra el prototipo desde su servidor (Docker/Nginx) o configure una clave propia en Configuración avanzada.');
+    }
+
+    const url = usaProxy ? GEMINI_PROXY_URL : geminiEndpoint(modelo);
+    const opciones = usaProxy
+        ? {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ modelo, payload: cuerpo })
+        }
+        : {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-goog-api-key': apiKey
+            },
+            body: JSON.stringify(cuerpo)
+        };
+
     // Cada intento se aborta a los GEMINI_TIMEOUT_MS para no dejar al usuario
     // esperando si el modelo está congestionado; el flujo pasa al siguiente modelo.
     const control = typeof AbortController !== 'undefined' ? new AbortController() : null;
@@ -1216,6 +1257,7 @@ async function solicitarPlanGemini(apiKey, cuerpo, modelo) {
     const respuestaPorTiempo = () => ({
         ok: false,
         timeout: true,
+        viaProxy: usaProxy,
         status: 0,
         statusText: 'Tiempo de espera agotado',
         data: null,
@@ -1223,15 +1265,9 @@ async function solicitarPlanGemini(apiKey, cuerpo, modelo) {
     });
 
     try {
-        const respuesta = await fetch(geminiEndpoint(modelo), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-goog-api-key': apiKey
-            },
-            body: JSON.stringify(cuerpo),
+        const respuesta = await fetch(url, Object.assign(opciones, {
             signal: control ? control.signal : undefined
-        });
+        }));
 
         let data = null;
         try { data = await respuesta.json(); } catch (e) {
@@ -1243,6 +1279,7 @@ async function solicitarPlanGemini(apiKey, cuerpo, modelo) {
         return {
             ok: !!respuesta.ok,
             timeout: false,
+            viaProxy: usaProxy,
             status: Number(respuesta.status) || 0,
             statusText: respuesta.statusText || '',
             data,
@@ -1272,6 +1309,12 @@ function esErrorThinkingConfigGemini(res) {
         /unknown name|cannot find field|invalid field/i.test(detalle);
 }
 
+// Distingue los errores del proxy del sitio de los errores reales de Google.
+function esErrorProxyGemini(res) {
+    const error = res && res.data && res.data.error;
+    return !!(error && error.origen === 'proxy_ica');
+}
+
 function mensajeApiGemini(data) {
     return data && data.error && data.error.message ? String(data.error.message) : '';
 }
@@ -1299,6 +1342,14 @@ function mensajeErrorFinalGemini(fallo) {
             ' segundos por intento y se agotaron los modelos disponibles' +
             (fallo.modelo ? ' (último: ' + fallo.modelo + ')' : '') +
             '. Intente de nuevo más tarde.';
+    }
+
+    if (esErrorProxyGemini(fallo)) {
+        return String(fallo.data.error.message || 'El servidor del sitio no pudo generar el plan de mejora.');
+    }
+
+    if (fallo.viaProxy && (fallo.status === 401 || fallo.status === 403)) {
+        return 'El servidor del sitio no pudo autenticarse con Gemini. Contacte al administrador.';
     }
 
     const codigo = 'HTTP ' + (fallo.status || 'sin código') +
@@ -1910,7 +1961,7 @@ function manejarAccion(action, el) {
             clearGeminiApiKey();
             const input = document.getElementById('geminiApiKey');
             if (input) input.value = '';
-            toast('Clave de Gemini eliminada');
+            toast('Clave propia eliminada; se usará el servidor del sitio');
             break;
         }
     }
@@ -1942,7 +1993,7 @@ function init() {
             const evalId = pendingAIEvalId;
             saveGeminiApiKey(key);
             cerrarModalClave();
-            toast('Clave de Gemini guardada');
+            toast('Clave propia guardada en este navegador');
             const objetivo = evalId ? getEvalById(evalId) : getEvalActual();
             if (objetivo) generarPlanIA(objetivo, null);
         });

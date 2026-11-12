@@ -445,6 +445,22 @@ input:focus, select:focus, textarea:focus {
 
 .actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }
 
+/* Opción secundaria de clave propia: cerrada por defecto en el sitio público. */
+.avanzado-ia {
+    margin-top: 1.1rem;
+    padding-top: .7rem;
+    border-top: 1px dashed var(--border);
+}
+.avanzado-ia summary {
+    cursor: pointer;
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 600;
+}
+.avanzado-ia summary:hover { color: var(--ica-verde); }
+.avanzado-ia[open] summary { margin-bottom: .3rem; }
+.avanzado-ia .hint { max-width: 46rem; margin-bottom: .6rem; }
+
 /* ------------------------------- Resultados ------------------------------ */
 .result-summary {
     display: flex;

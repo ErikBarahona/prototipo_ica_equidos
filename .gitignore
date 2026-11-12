@@ -1,0 +1,12 @@
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+
+# Dependencias y artefactos (el proyecto no las usa, pero se previenen)
+node_modules/
+*.log
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db

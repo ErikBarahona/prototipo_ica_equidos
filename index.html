@@ -357,8 +357,15 @@
             <div id="planMejoraContent"></div>
             <div class="actions">
                 <button id="exportPdfBtn" class="btn btn-primary" type="button">Exportar plan de mejora (PDF)</button>
-                <button class="btn btn-outline" data-action="open-gemini-key" type="button">Configurar clave de Gemini</button>
             </div>
+            <details class="avanzado-ia">
+                <summary>Configuración avanzada: usar clave propia</summary>
+                <p class="hint">
+                    El sitio público genera el plan con el servidor seguro del sitio, sin pedirle ninguna clave.
+                    Solo si desea usar su propia cuenta de Google puede guardar una clave en este navegador.
+                </p>
+                <button class="btn btn-outline btn-sm" data-action="open-gemini-key" type="button">Configurar clave de Gemini</button>
+            </details>
         </div>
     </div>
 </section>
@@ -379,13 +386,14 @@
         <div class="modal-head">
             <div>
                 <span class="badge badge-ia">Plan de mejora con IA</span>
-                <h3 id="geminiKeyTitle">Conectar con Google Gemini</h3>
+                <h3 id="geminiKeyTitle">Usar clave propia (opcional)</h3>
             </div>
             <button class="modal-close" data-action="close-gemini-key" type="button" aria-label="Cerrar">×</button>
         </div>
         <p class="muted">
-            Ingrese su <strong>GEMINI_API_KEY</strong> para analizar la evaluación con el modelo
-            <strong>gemini-3.8-flash</strong>. La clave se guarda solo en este navegador.
+            Por defecto el plan se genera en el servidor seguro del sitio y no necesita clave.
+            Esta opción es solo para usuarios avanzados que quieran usar su propia
+            <strong>GEMINI_API_KEY</strong> con el modelo <strong>gemini-3.8-flash</strong>.
         </p>
         <form id="geminiKeyForm">
             <div class="form-group">
@@ -393,7 +401,8 @@
                 <input type="password" id="geminiApiKey" autocomplete="off" required placeholder="AIza...">
             </div>
             <p class="hint">
-                Se almacena sin cifrar en <code>localStorage</code> de este navegador y solo se envía a la API de Gemini.
+                Se almacena sin cifrar en <code>localStorage</code> de este navegador y se envía solo a la API de Gemini.
+                Si la clave no es válida, el sitio volverá automáticamente a su servidor.
                 <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Obtener una clave en Google AI Studio</a>.
             </p>
             <div class="actions">
