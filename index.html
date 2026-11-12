@@ -357,6 +357,7 @@
             <div id="planMejoraContent"></div>
             <div class="actions">
                 <button id="exportPdfBtn" class="btn btn-primary" type="button">Exportar plan de mejora (PDF)</button>
+                <button class="btn btn-outline" data-action="open-gemini-key" type="button">Configurar clave de Gemini</button>
             </div>
         </div>
     </div>
@@ -370,6 +371,39 @@
 
 </div><!-- /.app-main -->
 </div><!-- /.app-shell -->
+
+<!-- ============================ MODAL API KEY GEMINI ============================ -->
+<div id="geminiKeyModal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-action="close-gemini-key" aria-hidden="true"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="geminiKeyTitle">
+        <div class="modal-head">
+            <div>
+                <span class="badge badge-ia">Plan de mejora con IA</span>
+                <h3 id="geminiKeyTitle">Conectar con Google Gemini</h3>
+            </div>
+            <button class="modal-close" data-action="close-gemini-key" type="button" aria-label="Cerrar">×</button>
+        </div>
+        <p class="muted">
+            Ingrese su <strong>GEMINI_API_KEY</strong> para analizar la evaluación con el modelo
+            <strong>gemini-3.8-flash</strong>. La clave se guarda solo en este navegador.
+        </p>
+        <form id="geminiKeyForm">
+            <div class="form-group">
+                <label for="geminiApiKey">GEMINI_API_KEY</label>
+                <input type="password" id="geminiApiKey" autocomplete="off" required placeholder="AIza...">
+            </div>
+            <p class="hint">
+                Se almacena sin cifrar en <code>localStorage</code> de este navegador y solo se envía a la API de Gemini.
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Obtener una clave en Google AI Studio</a>.
+            </p>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Guardar y continuar</button>
+                <button type="button" class="btn btn-outline" data-action="close-gemini-key">Cancelar</button>
+                <button type="button" class="btn btn-outline" data-action="clear-gemini-key">Borrar clave guardada</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>

@@ -202,6 +202,19 @@ input:focus, select:focus, textarea:focus {
 .btn-sm { padding: .3rem .6rem; font-size: .78rem; }
 .btn-block { width: 100%; }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-ia.is-loading::before {
+    content: '';
+    display: inline-block;
+    width: .75em;
+    height: .75em;
+    margin-right: .45rem;
+    vertical-align: -.08em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: ia-spin .7s linear infinite;
+}
+@keyframes ia-spin { to { transform: rotate(360deg); } }
 
 /* ------------------------------- Login ----------------------------------- */
 .login-wrap { display: flex; justify-content: center; padding: 2rem 1rem; }
@@ -461,6 +474,7 @@ input:focus, select:focus, textarea:focus {
 .badge-medio     { background: var(--ica-amarillo); color: #2b2b00; }
 .badge-bajo      { background: var(--danger); }
 .badge-suave     { background: #E7ECE3; color: #3c4a39; }
+.badge-ia        { background: var(--ica-amarillo); color: #2b2b00; }
 
 /* Barra de escala Excelente → Bajo */
 .scale-wrap { position: relative; margin: .5rem 0 1.75rem; padding-top: 6px; }
@@ -503,6 +517,169 @@ input:focus, select:focus, textarea:focus {
     margin-bottom: .9rem;
 }
 .plan-item h4 { color: #5a5c00; font-size: .92rem; margin-bottom: .35rem; }
+
+/* --------------------------- Plan de mejora con IA ----------------------- */
+.plan-ia-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--ica-verde);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.plan-ia-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: .75rem;
+    flex-wrap: wrap;
+    padding-bottom: .75rem;
+    margin-bottom: .85rem;
+    border-bottom: 1px solid var(--border);
+}
+.plan-ia-meta { display: inline-block; margin-left: .5rem; color: var(--muted); font-size: .78rem; }
+.plan-ia-print { background: #fff; }
+.plan-ia-doc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: .9rem;
+}
+.plan-ia-doc-head h3 { margin-bottom: .1rem; }
+.plan-ia-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: .55rem .9rem;
+    background: #F7F9F4;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: .7rem .85rem;
+    margin-bottom: .9rem;
+}
+.plan-ia-meta-grid span {
+    display: block;
+    color: var(--muted);
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+.plan-ia-meta-grid strong { font-size: .85rem; color: var(--text); }
+.plan-ia-print h4 {
+    color: var(--ica-verde);
+    font-size: .95rem;
+    margin: 1rem 0 .5rem;
+}
+.ai-summary {
+    background: #F7F9F4;
+    border-left: 4px solid var(--ica-verde);
+    border-radius: 4px;
+    padding: .65rem .85rem;
+    margin-bottom: .8rem;
+}
+.ai-summary p:last-child { margin-bottom: 0; }
+.ai-hallazgo {
+    background: #FAFBF9;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--ica-amarillo);
+    border-radius: 6px;
+    padding: .7rem .8rem;
+    margin-bottom: .7rem;
+}
+.ai-hallazgo-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: .6rem;
+    flex-wrap: wrap;
+    margin-bottom: .55rem;
+}
+.ai-hallazgo-head strong { color: var(--ica-verde); margin-right: .35rem; }
+.ai-hallazgo-head > div > span { font-size: .85rem; }
+.ai-hallazgo-head .muted { display: block; font-size: .75rem; }
+.ai-hallazgo-badges { display: flex; gap: .35rem; flex-wrap: wrap; }
+.ai-hallazgo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: .55rem .9rem;
+}
+.ai-field-label {
+    display: block;
+    color: var(--muted);
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: .15rem;
+}
+.ai-field-value { font-size: .82rem; }
+.ai-field-value p { margin-bottom: .35rem; }
+.ai-recomendaciones { margin: .2rem 0 0 1.1rem; font-size: .85rem; }
+.ai-recomendaciones li { margin-bottom: .3rem; }
+
+/* Evitar que tarjetas, filas y bloques se corten entre páginas al exportar el PDF. */
+.plan-ia-hallazgo,
+.plan-ia-seccion,
+tr,
+.ai-summary,
+.ai-recomendaciones,
+.ai-recomendaciones li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* ------------------------------- Modal ----------------------------------- */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+.modal[hidden] { display: none !important; }
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 15, .55);
+}
+.modal-card {
+    position: relative;
+    width: min(520px, 100%);
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    background: #fff;
+    border-top: 4px solid var(--ica-verde);
+    border-radius: 8px;
+    padding: 1.25rem 1.35rem;
+    box-shadow: 0 12px 40px rgba(0,0,0,.25);
+}
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: .6rem;
+}
+.modal-head h3 { margin: .4rem 0 0; color: var(--ica-verde); }
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 .15rem;
+}
+.modal-close:hover { color: var(--ica-verde); }
+.modal-card code {
+    background: #F1F4EE;
+    border-radius: 3px;
+    padding: .05rem .25rem;
+}
+body.modal-open { overflow: hidden; }
 
 /* ------------------------------- Footer ---------------------------------- */
 .app-footer {
