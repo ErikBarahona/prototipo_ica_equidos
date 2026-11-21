@@ -6,7 +6,7 @@
 const STORAGE_KEY = 'ica_equidos_v3';
 const GEMINI_KEY_STORAGE = 'ica_gemini_api_key';
 // Se intentan en orden; si un modelo está saturado (503) o ya no existe (404) se pasa al siguiente.
-const GEMINI_MODELS = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];
+const GEMINI_MODELS = ['gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3.6-flash'];
 const GEMINI_MODEL = GEMINI_MODELS[0];
 const GEMINI_PROXY_URL = '/api/gemini';   // proxy del servidor; la clave vive solo allí
 const GEMINI_MAX_INTENTOS = 2;        // intentos por modelo (1 reintento)
@@ -1133,6 +1133,7 @@ async function generarPlanIA(ev, triggerEl) {
         let data = null;
         let modeloUsado = null;
         let ultimoFallo = null;
+        let primerFallo = null;
 
         // Prueba cada modelo en orden: reintenta errores temporales y pasa al siguiente
         // modelo si el actual está saturado (503) o ya no está disponible (404).
@@ -1151,6 +1152,9 @@ async function generarPlanIA(ev, triggerEl) {
                 }
 
                 ultimoFallo = res;
+                // Se conserva el primer error HTTP real para no perder su causa
+                // cuando los modelos de reserva terminan devolviendo 404.
+                if (!primerFallo && !res.timeout && !esErrorProxyGemini(res)) primerFallo = res;
                 const detalle = mensajeApiGemini(res.data);
 
                 // Sin respuesta en GEMINI_TIMEOUT_MS: se salta al siguiente modelo sin reintentar.
@@ -1179,11 +1183,9 @@ async function generarPlanIA(ev, triggerEl) {
                     continue;
                 }
 
-                if (esErrorTemporalGemini(res.status) || res.status === 404) {
-                    pasarAlSiguiente = true;
-                } else {
-                    detener = true;
-                }
+                // Cualquier error de Google agota el modelo actual; se prueban los
+                // siguientes antes de mostrar el fallo final.
+                pasarAlSiguiente = true;
                 break;
             }
 
@@ -1192,7 +1194,7 @@ async function generarPlanIA(ev, triggerEl) {
             break;
         }
 
-        if (!data) throw new Error(mensajeErrorFinalGemini(ultimoFallo));
+        if (!data) throw new Error(mensajeErrorFinalGemini(ultimoFallo, primerFallo));
 
         const texto = extraerTextoGemini(data);
         const plan = parsearPlanIA(texto);
@@ -1334,38 +1336,51 @@ function detalleTecnicoGemini(fallo) {
     return partes.join(' · ');
 }
 
-function mensajeErrorFinalGemini(fallo) {
-    if (!fallo) return 'No se pudo generar el plan de mejora con IA (Gemini no devolvió respuesta).';
-
+function resumenFalloGemini(fallo) {
+    if (!fallo) return '';
     if (fallo.timeout) {
-        return 'Gemini no respondió en ' + Math.round(GEMINI_TIMEOUT_MS / 1000) +
+        return 'tiempo de espera agotado' + (fallo.modelo ? ' con ' + fallo.modelo : '');
+    }
+    const codigo = 'HTTP ' + (fallo.status || 'sin código') +
+        (fallo.statusText ? ' ' + fallo.statusText : '');
+    const detalle = detalleTecnicoGemini(fallo);
+    return codigo + (detalle ? ' · ' + detalle : '');
+}
+
+function mensajeErrorFinalGemini(fallo, primerFallo = null) {
+    let mensaje;
+    if (!fallo) {
+        mensaje = 'No se pudo generar el plan de mejora con IA (Gemini no devolvió respuesta).';
+    } else if (fallo.timeout) {
+        mensaje = 'Gemini no respondió en ' + Math.round(GEMINI_TIMEOUT_MS / 1000) +
             ' segundos por intento y se agotaron los modelos disponibles' +
             (fallo.modelo ? ' (último: ' + fallo.modelo + ')' : '') +
             '. Intente de nuevo más tarde.';
+    } else if (esErrorProxyGemini(fallo)) {
+        mensaje = String(fallo.data.error.message || 'El servidor del sitio no pudo generar el plan de mejora.');
+    } else if (fallo.viaProxy && (fallo.status === 401 || fallo.status === 403)) {
+        mensaje = 'El servidor del sitio no pudo autenticarse con Gemini. Contacte al administrador.';
+    } else {
+        const codigo = 'HTTP ' + (fallo.status || 'sin código') +
+            (fallo.statusText ? ' ' + fallo.statusText : '');
+        let recomendacion = 'Verifique la API key y los datos enviados.';
+        if (fallo.status === 429) {
+            recomendacion = 'Se alcanzó el límite de uso de Gemini. Espere un momento e intente de nuevo.';
+        } else if (fallo.status >= 500) {
+            recomendacion = 'Gemini no está disponible en este momento. Intente de nuevo más tarde.';
+        } else if (fallo.status === 404) {
+            recomendacion = 'Ninguno de los modelos configurados está disponible para esta API key.';
+        }
+
+        const detalle = detalleTecnicoGemini(fallo);
+        mensaje = 'Gemini respondió ' + codigo + '. ' + recomendacion +
+            (detalle ? ' Detalle técnico: ' + detalle : '');
     }
 
-    if (esErrorProxyGemini(fallo)) {
-        return String(fallo.data.error.message || 'El servidor del sitio no pudo generar el plan de mejora.');
+    if (primerFallo && primerFallo !== fallo && !esErrorProxyGemini(primerFallo)) {
+        mensaje += ' Primer error detectado: ' + resumenFalloGemini(primerFallo) + '.';
     }
-
-    if (fallo.viaProxy && (fallo.status === 401 || fallo.status === 403)) {
-        return 'El servidor del sitio no pudo autenticarse con Gemini. Contacte al administrador.';
-    }
-
-    const codigo = 'HTTP ' + (fallo.status || 'sin código') +
-        (fallo.statusText ? ' ' + fallo.statusText : '');
-    let recomendacion = 'Verifique la API key y los datos enviados.';
-    if (fallo.status === 429) {
-        recomendacion = 'Se alcanzó el límite de uso de Gemini. Espere un momento e intente de nuevo.';
-    } else if (fallo.status >= 500) {
-        recomendacion = 'Gemini no está disponible en este momento. Intente de nuevo más tarde.';
-    } else if (fallo.status === 404) {
-        recomendacion = 'Ninguno de los modelos configurados está disponible para esta API key.';
-    }
-
-    const detalle = detalleTecnicoGemini(fallo);
-    return 'Gemini respondió ' + codigo + '. ' + recomendacion +
-        (detalle ? ' Detalle técnico: ' + detalle : '');
+    return mensaje;
 }
 
 function extraerTextoGemini(data) {
