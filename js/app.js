@@ -6,7 +6,7 @@
 const STORAGE_KEY = 'ica_equidos_v3';
 const GEMINI_KEY_STORAGE = 'ica_gemini_api_key';
 // Se intentan en orden; si un modelo está saturado (503) o ya no existe (404) se pasa al siguiente.
-const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash'];
+const GEMINI_MODELS = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];
 const GEMINI_MODEL = GEMINI_MODELS[0];
 const GEMINI_PROXY_URL = '/api/gemini';   // proxy del servidor; la clave vive solo allí
 const GEMINI_MAX_INTENTOS = 2;        // intentos por modelo (1 reintento)
@@ -1664,38 +1664,63 @@ function renderPlanMejora() {
 function exportPdf(element, filename) {
     if (!element) return;
 
-    // Las barras de acciones no deben salir en el PDF.
+    const scrollX = (window.scrollX !== undefined ? window.scrollX : window.pageXOffset) || 0;
+    const scrollY = (window.scrollY !== undefined ? window.scrollY : window.pageYOffset) || 0;
+    let restaurado = false;
+
+    // Las barras de acciones no deben salir en el PDF. La clase pdf-export
+    // aplica un ancho fijo y quita sombras/recortes mientras se captura.
     const ocultos = Array.from(element.querySelectorAll('[data-pdf-ignore]'));
     ocultos.forEach(el => {
         el.dataset.pdfDisplay = el.style.display;
         el.style.display = 'none';
     });
+    element.classList.add('pdf-export');
+
     const restaurar = () => {
-        ocultos.forEach(el => { el.style.display = el.dataset.pdfDisplay || ''; });
+        if (restaurado) return;
+        restaurado = true;
+        ocultos.forEach(el => {
+            el.style.display = el.dataset.pdfDisplay || '';
+            delete el.dataset.pdfDisplay;
+        });
+        element.classList.remove('pdf-export');
+        if (typeof window.scrollTo === 'function') window.scrollTo(scrollX, scrollY);
+    };
+    const alFallar = err => {
+        restaurar();
+        console.warn('No se pudo generar el PDF', err);
+        toast('No se pudo generar el PDF.', 'error');
     };
 
-    if (window.html2pdf) {
-        const trabajo = html2pdf().set({
-            margin: 0.5,
-            filename: filename,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-            pagebreak: {
-                mode: ['css', 'legacy'],
-                avoid: ['.plan-ia-hallazgo', '.plan-ia-seccion', 'tr', '.card']
-            }
-        }).from(element).save();
-        const alFallar = err => {
+    try {
+        // html2canvas mide desde el scroll actual: al pulsar el botón al final
+        // del acta aparecían páginas en blanco. Se captura desde el origen y se
+        // devuelve el scroll al terminar.
+        if (typeof window.scrollTo === 'function') window.scrollTo(0, 0);
+
+        if (window.html2pdf) {
+            const trabajo = html2pdf().set({
+                margin: 0.5,
+                filename: filename,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+                pagebreak: {
+                    // avoid-all solo protege bloques que caben en una hoja: los
+                    // contenedores grandes siguen paginándose sin hojas vacías.
+                    mode: ['avoid-all', 'css', 'legacy'],
+                    avoid: ['.plan-ia-hallazgo', 'tr', '.ai-summary',
+                        '.ai-recomendaciones li', '.result-summary', '.scale-wrap']
+                }
+            }).from(element).save();
+            Promise.resolve(trabajo).then(restaurar, alFallar);
+        } else {
+            window.print();
             restaurar();
-            console.warn('No se pudo generar el PDF', err);
-            toast('No se pudo generar el PDF.', 'error');
-        };
-        if (trabajo && typeof trabajo.then === 'function') trabajo.then(restaurar, alFallar);
-        else setTimeout(restaurar, 1000);
-    } else {
-        window.print();
-        restaurar();
+        }
+    } catch (err) {
+        alFallar(err);
     }
 }
 
