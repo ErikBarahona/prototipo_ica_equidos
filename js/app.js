@@ -1166,6 +1166,7 @@ async function generarPlanIA(ev, triggerEl) {
         let data = null;
         let modeloUsado = null;
         let ultimoFallo = null;
+        let primerFallo = null;
 
         // Prueba cada modelo en orden: reintenta errores temporales y pasa al siguiente
         // modelo si el actual está saturado (503) o ya no está disponible (404).
@@ -1184,6 +1185,9 @@ async function generarPlanIA(ev, triggerEl) {
                 }
 
                 ultimoFallo = res;
+                // Se conserva el primer error HTTP real para no perder su causa
+                // cuando los modelos de reserva terminan devolviendo 404.
+                if (!primerFallo && !res.timeout && !esErrorProxyGemini(res)) primerFallo = res;
                 const detalle = mensajeApiGemini(res.data);
 
                 // Sin respuesta en GEMINI_TIMEOUT_MS: se salta al siguiente modelo sin reintentar.
@@ -1212,11 +1216,9 @@ async function generarPlanIA(ev, triggerEl) {
                     continue;
                 }
 
-                if (esErrorTemporalGemini(res.status) || res.status === 404) {
-                    pasarAlSiguiente = true;
-                } else {
-                    detener = true;
-                }
+                // Cualquier error de Google agota el modelo actual; se prueban los
+                // siguientes antes de mostrar el fallo final.
+                pasarAlSiguiente = true;
                 break;
             }
 
@@ -1225,7 +1227,7 @@ async function generarPlanIA(ev, triggerEl) {
             break;
         }
 
-        if (!data) throw new Error(mensajeErrorFinalGemini(ultimoFallo));
+        if (!data) throw new Error(mensajeErrorFinalGemini(ultimoFallo, primerFallo));
 
         const texto = extraerTextoGemini(data);
         const plan = parsearPlanIA(texto);
@@ -1367,38 +1369,51 @@ function detalleTecnicoGemini(fallo) {
     return partes.join(' · ');
 }
 
-function mensajeErrorFinalGemini(fallo) {
-    if (!fallo) return 'No se pudo generar el plan de mejora con IA (Gemini no devolvió respuesta).';
-
+function resumenFalloGemini(fallo) {
+    if (!fallo) return '';
     if (fallo.timeout) {
-        return 'Gemini no respondió en ' + Math.round(GEMINI_TIMEOUT_MS / 1000) +
+        return 'tiempo de espera agotado' + (fallo.modelo ? ' con ' + fallo.modelo : '');
+    }
+    const codigo = 'HTTP ' + (fallo.status || 'sin código') +
+        (fallo.statusText ? ' ' + fallo.statusText : '');
+    const detalle = detalleTecnicoGemini(fallo);
+    return codigo + (detalle ? ' · ' + detalle : '');
+}
+
+function mensajeErrorFinalGemini(fallo, primerFallo = null) {
+    let mensaje;
+    if (!fallo) {
+        mensaje = 'No se pudo generar el plan de mejora con IA (Gemini no devolvió respuesta).';
+    } else if (fallo.timeout) {
+        mensaje = 'Gemini no respondió en ' + Math.round(GEMINI_TIMEOUT_MS / 1000) +
             ' segundos por intento y se agotaron los modelos disponibles' +
             (fallo.modelo ? ' (último: ' + fallo.modelo + ')' : '') +
             '. Intente de nuevo más tarde.';
+    } else if (esErrorProxyGemini(fallo)) {
+        mensaje = String(fallo.data.error.message || 'El servidor del sitio no pudo generar el plan de mejora.');
+    } else if (fallo.viaProxy && (fallo.status === 401 || fallo.status === 403)) {
+        mensaje = 'El servidor del sitio no pudo autenticarse con Gemini. Contacte al administrador.';
+    } else {
+        const codigo = 'HTTP ' + (fallo.status || 'sin código') +
+            (fallo.statusText ? ' ' + fallo.statusText : '');
+        let recomendacion = 'Verifique la API key y los datos enviados.';
+        if (fallo.status === 429) {
+            recomendacion = 'Se alcanzó el límite de uso de Gemini. Espere un momento e intente de nuevo.';
+        } else if (fallo.status >= 500) {
+            recomendacion = 'Gemini no está disponible en este momento. Intente de nuevo más tarde.';
+        } else if (fallo.status === 404) {
+            recomendacion = 'Ninguno de los modelos configurados está disponible para esta API key.';
+        }
+
+        const detalle = detalleTecnicoGemini(fallo);
+        mensaje = 'Gemini respondió ' + codigo + '. ' + recomendacion +
+            (detalle ? ' Detalle técnico: ' + detalle : '');
     }
 
-    if (esErrorProxyGemini(fallo)) {
-        return String(fallo.data.error.message || 'El servidor del sitio no pudo generar el plan de mejora.');
+    if (primerFallo && primerFallo !== fallo && !esErrorProxyGemini(primerFallo)) {
+        mensaje += ' Primer error detectado: ' + resumenFalloGemini(primerFallo) + '.';
     }
-
-    if (fallo.viaProxy && (fallo.status === 401 || fallo.status === 403)) {
-        return 'El servidor del sitio no pudo autenticarse con Gemini. Contacte al administrador.';
-    }
-
-    const codigo = 'HTTP ' + (fallo.status || 'sin código') +
-        (fallo.statusText ? ' ' + fallo.statusText : '');
-    let recomendacion = 'Verifique la API key y los datos enviados.';
-    if (fallo.status === 429) {
-        recomendacion = 'Se alcanzó el límite de uso de Gemini. Espere un momento e intente de nuevo.';
-    } else if (fallo.status >= 500) {
-        recomendacion = 'Gemini no está disponible en este momento. Intente de nuevo más tarde.';
-    } else if (fallo.status === 404) {
-        recomendacion = 'Ninguno de los modelos configurados está disponible para esta API key.';
-    }
-
-    const detalle = detalleTecnicoGemini(fallo);
-    return 'Gemini respondió ' + codigo + '. ' + recomendacion +
-        (detalle ? ' Detalle técnico: ' + detalle : '');
+    return mensaje;
 }
 
 function extraerTextoGemini(data) {
@@ -1697,38 +1712,63 @@ function renderPlanMejora() {
 function exportPdf(element, filename) {
     if (!element) return;
 
-    // Las barras de acciones no deben salir en el PDF.
+    const scrollX = (window.scrollX !== undefined ? window.scrollX : window.pageXOffset) || 0;
+    const scrollY = (window.scrollY !== undefined ? window.scrollY : window.pageYOffset) || 0;
+    let restaurado = false;
+
+    // Las barras de acciones no deben salir en el PDF. La clase pdf-export
+    // aplica un ancho fijo y quita sombras/recortes mientras se captura.
     const ocultos = Array.from(element.querySelectorAll('[data-pdf-ignore]'));
     ocultos.forEach(el => {
         el.dataset.pdfDisplay = el.style.display;
         el.style.display = 'none';
     });
+    element.classList.add('pdf-export');
+
     const restaurar = () => {
-        ocultos.forEach(el => { el.style.display = el.dataset.pdfDisplay || ''; });
+        if (restaurado) return;
+        restaurado = true;
+        ocultos.forEach(el => {
+            el.style.display = el.dataset.pdfDisplay || '';
+            delete el.dataset.pdfDisplay;
+        });
+        element.classList.remove('pdf-export');
+        if (typeof window.scrollTo === 'function') window.scrollTo(scrollX, scrollY);
+    };
+    const alFallar = err => {
+        restaurar();
+        console.warn('No se pudo generar el PDF', err);
+        toast('No se pudo generar el PDF.', 'error');
     };
 
-    if (window.html2pdf) {
-        const trabajo = html2pdf().set({
-            margin: 0.5,
-            filename: filename,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-            pagebreak: {
-                mode: ['css', 'legacy'],
-                avoid: ['.plan-ia-hallazgo', '.plan-ia-seccion', 'tr', '.card']
-            }
-        }).from(element).save();
-        const alFallar = err => {
+    try {
+        // html2canvas mide desde el scroll actual: al pulsar el botón al final
+        // del acta aparecían páginas en blanco. Se captura desde el origen y se
+        // devuelve el scroll al terminar.
+        if (typeof window.scrollTo === 'function') window.scrollTo(0, 0);
+
+        if (window.html2pdf) {
+            const trabajo = html2pdf().set({
+                margin: 0.5,
+                filename: filename,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+                pagebreak: {
+                    // avoid-all solo protege bloques que caben en una hoja: los
+                    // contenedores grandes siguen paginándose sin hojas vacías.
+                    mode: ['avoid-all', 'css', 'legacy'],
+                    avoid: ['.plan-ia-hallazgo', 'tr', '.ai-summary',
+                        '.ai-recomendaciones li', '.result-summary', '.scale-wrap']
+                }
+            }).from(element).save();
+            Promise.resolve(trabajo).then(restaurar, alFallar);
+        } else {
+            window.print();
             restaurar();
-            console.warn('No se pudo generar el PDF', err);
-            toast('No se pudo generar el PDF.', 'error');
-        };
-        if (trabajo && typeof trabajo.then === 'function') trabajo.then(restaurar, alFallar);
-        else setTimeout(restaurar, 1000);
-    } else {
-        window.print();
-        restaurar();
+        }
+    } catch (err) {
+        alFallar(err);
     }
 }
 

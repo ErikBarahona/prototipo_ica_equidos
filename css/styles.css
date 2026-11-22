@@ -634,13 +634,49 @@ input:focus, select:focus, textarea:focus {
 .ai-recomendaciones { margin: .2rem 0 0 1.1rem; font-size: .85rem; }
 .ai-recomendaciones li { margin-bottom: .3rem; }
 
-/* Evitar que tarjetas, filas y bloques se corten entre páginas al exportar el PDF. */
+/* Evitar que tarjetas pequeñas, filas y bloques se corten entre páginas al exportar el PDF.
+   No se aplica a contenedores grandes (#acta, .card, .plan-ia-card): eso dejaría hojas vacías. */
 .plan-ia-hallazgo,
-.plan-ia-seccion,
 tr,
 .ai-summary,
-.ai-recomendaciones,
 .ai-recomendaciones li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* Exportación PDF: ancho fijo compatible con carta/A4, sin sombras ni recortes. */
+.pdf-export {
+    width: 7.2in;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #fff !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+.pdf-export .card,
+.pdf-export .plan-ia-card,
+.pdf-export .plan-item {
+    margin: 0 0 .8rem !important;
+    padding: 0 !important;
+    background: #fff !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+.pdf-export .table-wrap { overflow: visible !important; width: 100% !important; }
+.pdf-export table { table-layout: fixed; width: 100% !important; }
+.pdf-export th,
+.pdf-export td { white-space: normal !important; overflow-wrap: anywhere; }
+.pdf-export [data-pdf-ignore] { display: none !important; }
+.pdf-export .result-summary,
+.pdf-export .scale-wrap,
+.pdf-export .plan-ia-meta-grid,
+.pdf-export .ai-hallazgo,
+.pdf-export .info-box {
     break-inside: avoid;
     page-break-inside: avoid;
 }
